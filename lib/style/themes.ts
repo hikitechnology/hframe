@@ -1,0 +1,42 @@
+import { Layout } from "../ui/abstract/layout";
+import { Color } from "../utils/color";
+import { ThemeBuilder } from "./theme-builder";
+
+export const Themes = {
+  light: ThemeBuilder.setDefault({
+    padding: 0,
+    fill: Color.TRANSPARENT,
+    outline: Color.TRANSPARENT,
+    textColor: Color.BLACK,
+    rounding: 0,
+    fontSize: 13,
+    lineSpacing: 1.1,
+    scrollbarBackground: Color.gray(200),
+    scrollbarColor: Color.gray(50),
+    scrollbarOutline: Color.gray(144),
+    sliderBackground: Color.gray(144),
+    sliderDotFill: Color.gray(60),
+  }).setStyleFor(Layout, {
+    fill: Color.gray(234),
+    outline: Color.gray(144),
+  }),
+  dark: ThemeBuilder.setIsDark(true)
+    .setDefault({
+      padding: 0,
+      fill: Color.TRANSPARENT,
+      outline: Color.TRANSPARENT,
+      textColor: Color.WHITE,
+      rounding: 0,
+      fontSize: 13,
+      lineSpacing: 1.1,
+      scrollbarBackground: Color.gray(0),
+      scrollbarColor: Color.gray(100),
+      scrollbarOutline: Color.gray(80),
+      sliderBackground: Color.gray(144),
+      sliderDotFill: Color.gray(60),
+    })
+    .setStyleFor(Layout, {
+      fill: Color.gray(30),
+      outline: Color.gray(80),
+    }),
+};
