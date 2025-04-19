@@ -1,16 +1,37 @@
 import { Context } from "../../context";
 import { Painter } from "../../render/painter";
 import { Rect } from "../../utils/shapes/rect";
+import { Gap } from "../elements/gap";
 import { Actions } from "./actions";
-import { Allocation } from "./allocation";
 import { Element } from "./element";
 import { Layout } from "./layout";
 
+export type Allocation = {
+  type: "pixel" | "relative";
+  size: number;
+  minSize?: number;
+  minElementSize: {
+    width: number;
+    height: number;
+  };
+  resizable: boolean;
+  setByUser: boolean;
+};
+
 export abstract class DirectionalLayout extends Layout {
   protected allocations: Allocation[] = [];
+  protected cachedRect: Rect | null = null;
 
   constructor(protected isVertical: boolean) {
     super();
+  }
+
+  gap(size?: number) {
+    if (size) {
+      this.addSized(new Gap(), size);
+    } else {
+      this.add(new Gap());
+    }
   }
 
   add(element: Element): typeof this {
@@ -80,7 +101,8 @@ export abstract class DirectionalLayout extends Layout {
     return this.elements.includes(element);
   }
 
-  update(rect: Rect, context: Context): void {
+  protected update(rect: Rect, context: Context): void {
+    this.cachedRect = rect;
     this.updateMinSizes();
 
     const afterPadding = rect.clone().grow(-this.style.padding);
@@ -102,18 +124,16 @@ export abstract class DirectionalLayout extends Layout {
           }
         },
       };
-      element.update(elementRect, context, actions);
+      element.updateElement(elementRect, context, actions);
     }
   }
 
   render(rect: Rect, painter: Painter): void {
-    this.renderSelf(rect, painter);
-
     painter.clip(rect);
     const afterPadding = rect.clone().grow(-this.style.padding);
     for (const element of this.elements) {
       const elementRect = this.getAllocRect(afterPadding, element);
-      element.render(elementRect, painter);
+      element.renderElement(elementRect, painter);
     }
     painter.unclip();
   }
@@ -167,6 +187,20 @@ export abstract class DirectionalLayout extends Layout {
     return Rect.from(x, y, width, height);
   }
 
+  protected getSizeInPixels(allocation: Allocation): number {
+    if (!this.cachedRect) {
+      throw new Error("No cached rect to calculate pixel size from");
+    }
+    if (allocation.type === "pixel") {
+      return allocation.size;
+    }
+    return (
+      (allocation.size / this.sumRelativeAllocations()) *
+      ((this.isVertical ? this.cachedRect.height : this.cachedRect.width) -
+        this.sumPixelAllocations())
+    );
+  }
+
   protected sumPixelAllocations() {
     const sum = this.allocations
       .filter((alloc) => alloc.type === "pixel")
@@ -179,5 +213,60 @@ export abstract class DirectionalLayout extends Layout {
       .filter((alloc) => alloc.type === "relative")
       .reduce((sum, alloc) => sum + alloc.size, 0);
     return sum;
+  }
+
+  protected getMinSize(allocation: Allocation): number {
+    if (!allocation.minSize && allocation.minSize !== 0) {
+      return this.isVertical
+        ? allocation.minElementSize.height
+        : allocation.minElementSize.width;
+    }
+    return allocation.minSize;
+  }
+
+  get minWidth(): number {
+    if (this.cachedRect) {
+      if (this.isVertical) {
+        let widest = 0;
+        for (const alloc of this.allocations) {
+          const width = alloc.minElementSize.width;
+          if (width > widest) {
+            widest = width;
+          }
+        }
+        return widest;
+      } else {
+        let width = 0;
+        for (const alloc of this.allocations) {
+          width += this.getSizeInPixels(alloc);
+        }
+        return width;
+      }
+    } else {
+      return 0;
+    }
+  }
+
+  get minHeight(): number {
+    if (this.cachedRect) {
+      if (this.isVertical) {
+        let height = 0;
+        for (const alloc of this.allocations) {
+          height += this.getSizeInPixels(alloc);
+        }
+        return height;
+      } else {
+        let tallest = 0;
+        for (const alloc of this.allocations) {
+          const height = alloc.minElementSize.height;
+          if (height > tallest) {
+            tallest = height;
+          }
+        }
+        return tallest;
+      }
+    } else {
+      return 0;
+    }
   }
 }

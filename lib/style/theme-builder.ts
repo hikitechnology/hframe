@@ -10,6 +10,7 @@ export class ThemeBuilder extends Theme {
     textColor: Color.BLACK,
     rounding: 0,
     fontSize: 13,
+    textCentered: false,
     lineSpacing: 1.1,
     scrollbarBackground: Color.WHITE,
     scrollbarColor: Color.BLACK,

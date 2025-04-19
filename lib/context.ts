@@ -3,6 +3,8 @@ import { Pos2D } from "./utils/shapes/pos2d";
 import { Vec2D } from "./utils/shapes/vec2d";
 
 export class Context {
+  private interactionPaused = false;
+
   private _mousePos: Pos2D = new Pos2D(Number.NaN, Number.NaN);
   private _mouseDelta: Vec2D = new Vec2D(0, 0);
   private _isMouseDown: boolean = false;
@@ -17,7 +19,6 @@ export class Context {
   private _justReleasedKeys: string[] = [];
 
   private hiddenTextarea: HTMLTextAreaElement;
-  private mostRecentMousePos: Pos2D = new Pos2D(Number.NaN, Number.NaN);
 
   constructor(private canvas: HTMLCanvasElement) {
     // set up hidden text input
@@ -58,8 +59,6 @@ export class Context {
 
       this._mousePos.x = event.x;
       this._mousePos.y = event.y;
-      this.mostRecentMousePos.x = event.x;
-      this.mostRecentMousePos.y = event.y;
     });
     canvas.addEventListener("wheel", (event) => {
       this._scrollDelta += event.deltaY;
@@ -86,10 +85,11 @@ export class Context {
   }
 
   refresh() {
+    this.interactionPaused = false;
+
     this.canvas.style.cursor = this._cursor;
     this._cursor = "default";
 
-    this._mousePos = this.mostRecentMousePos;
     this._mouseDelta = new Vec2D(0, 0);
     this._justPressedMouse = false;
     this._justReleasedMouse = false;
@@ -101,7 +101,7 @@ export class Context {
   }
 
   haltInteraction() {
-    this._mousePos = new Pos2D(Number.NaN, Number.NaN);
+    this.interactionPaused = true;
   }
 
   collectTextInput(
@@ -152,6 +152,9 @@ export class Context {
   }
 
   get mousePos(): Pos2D {
+    if (this.interactionPaused) {
+      return new Pos2D(NaN, NaN);
+    }
     return this._mousePos;
   }
 

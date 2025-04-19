@@ -13,14 +13,12 @@ export class VerticalScroll extends DirectionalLayout {
   private scrollOffset: number = 0;
   private scrollbarHovered: boolean = false;
   private draggingScrollbar: boolean = false;
-  private cachedRect: Rect | null = null;
 
   constructor() {
     super(true);
   }
 
   update(rect: Rect, context: Context): void {
-    this.cachedRect = rect;
     if (rect.contains(context.mousePos)) {
       this.scrollOffset += context.scrollDelta;
     }

@@ -1,4 +1,4 @@
-import { Layout } from "../ui/abstract/layout";
+import { DirectionalLayout } from "../ui/abstract/directional-layout";
 import { Button } from "../ui/elements/button";
 import { Color } from "../utils/color";
 import { ThemeBuilder } from "./theme-builder";
@@ -11,6 +11,7 @@ export const Themes = {
     textColor: Color.BLACK,
     rounding: 0,
     fontSize: 13,
+    textCentered: false,
     lineSpacing: 1.1,
     scrollbarBackground: Color.gray(200),
     scrollbarColor: Color.gray(50),
@@ -18,7 +19,7 @@ export const Themes = {
     sliderBackground: Color.gray(144),
     sliderDotFill: Color.gray(60),
   })
-    .setStyleFor(Layout, {
+    .setStyleFor(DirectionalLayout, {
       fill: Color.gray(234),
       outline: Color.gray(144),
     })
@@ -27,6 +28,7 @@ export const Themes = {
       fill: Color.gray(211),
       outline: Color.gray(144),
       rounding: 3,
+      textCentered: true,
     }),
   dark: ThemeBuilder.setIsDark(true)
     .setDefault({
@@ -36,6 +38,7 @@ export const Themes = {
       textColor: Color.WHITE,
       rounding: 0,
       fontSize: 13,
+      textCentered: false,
       lineSpacing: 1.1,
       scrollbarBackground: Color.gray(0),
       scrollbarColor: Color.gray(100),
@@ -43,7 +46,7 @@ export const Themes = {
       sliderBackground: Color.gray(144),
       sliderDotFill: Color.gray(60),
     })
-    .setStyleFor(Layout, {
+    .setStyleFor(DirectionalLayout, {
       fill: Color.gray(30),
       outline: Color.gray(80),
     })
@@ -52,5 +55,6 @@ export const Themes = {
       fill: Color.gray(45),
       outline: Color.gray(80),
       rounding: 3,
+      textCentered: true,
     }),
 };

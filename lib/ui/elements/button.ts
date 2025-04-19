@@ -9,6 +9,8 @@ import { Element } from "../abstract/element";
 export class Button extends Element {
   private hovered: boolean = false;
   private cachedPainter: Painter | null = null;
+  private _minHeight: number = 0;
+  private _minWidth: number = 0;
 
   constructor(
     public text: string,
@@ -17,7 +19,7 @@ export class Button extends Element {
     super();
   }
 
-  update(rect: Rect, context: Context, actions?: Actions): void {
+  protected update(rect: Rect, context: Context, actions?: Actions): void {
     if (rect.contains(context.mousePos)) {
       this.hovered = true;
 
@@ -33,12 +35,14 @@ export class Button extends Element {
         this.text,
         this.style.fontSize,
       );
-      actions.requestWidth(textWidth + 2 * this.style.padding);
-      actions.requestHeight(this.style.fontSize + 2 * this.style.padding);
+      this._minWidth = textWidth + 2 * this.style.padding;
+      this._minHeight = this.style.fontSize + 2 * this.style.padding;
+      actions.requestWidth(this._minWidth);
+      actions.requestHeight(this._minHeight);
     }
   }
 
-  render(rect: Rect, painter: Painter): void {
+  protected render(rect: Rect, painter: Painter): void {
     if (!this.cachedPainter) {
       this.cachedPainter = painter;
     }
@@ -56,10 +60,22 @@ export class Button extends Element {
     painter.setColor(this.style.textColor);
     painter.text(
       this.text,
-      rect.center.x,
-      rect.center.y,
-      true,
+      this.style.textCentered
+        ? rect.center.x
+        : rect.topLeft.x + this.style.padding,
+      this.style.textCentered
+        ? rect.center.y
+        : rect.topLeft.y + this.style.padding,
+      this.style.textCentered,
       this.style.fontSize,
     );
+  }
+
+  get minHeight() {
+    return this._minHeight;
+  }
+
+  get minWidth() {
+    return this._minWidth;
   }
 }

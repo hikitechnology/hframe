@@ -18,7 +18,7 @@ export class Text extends Element {
     }
   }
 
-  update(rect: Rect, _context: Context, actions?: Actions): void {
+  protected update(rect: Rect, _context: Context, actions?: Actions): void {
     if (this.cachedPainter) {
       const words = this.text.split(/\s+/);
       this.lines = [];
@@ -47,11 +47,10 @@ export class Text extends Element {
     }
   }
 
-  render(rect: Rect, painter: Painter): void {
+  protected render(rect: Rect, painter: Painter): void {
     if (!this.cachedPainter) {
       this.cachedPainter = painter;
     }
-    this.renderSelf(rect, painter);
 
     painter.clip(rect);
     painter.setColor(this.style.textColor);

@@ -76,7 +76,7 @@ export class HFrame {
     // update layers top-to-bottom so mouse clicks etc can be handled correctly
     for (let i = this.layers.length - 1; i >= 0; i--) {
       const layer = this.layers[i];
-      layer.update(this.rect, this.context);
+      layer.updateElement(this.rect, this.context);
     }
     this.context.refresh();
   }
@@ -84,7 +84,7 @@ export class HFrame {
   private render() {
     this.painter.clear();
     for (const layer of this.layers) {
-      layer.render(this.rect, this.painter);
+      layer.renderElement(this.rect, this.painter);
     }
   }
 

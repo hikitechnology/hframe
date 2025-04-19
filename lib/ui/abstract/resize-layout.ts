@@ -5,8 +5,7 @@ import {
 } from "../../constants";
 import { Context } from "../../context";
 import { Rect } from "../../utils/shapes/rect";
-import { Allocation } from "./allocation";
-import { DirectionalLayout } from "./directional-layout";
+import { Allocation, DirectionalLayout } from "./directional-layout";
 import { Element } from "./element";
 
 type ResizeSide = "top" | "bottom" | "left" | "right";
@@ -16,10 +15,8 @@ export abstract class ResizeLayout extends DirectionalLayout {
     allocation: Allocation;
     direction: ResizeSide;
   } | null = null;
-  protected cachedRect: Rect | null = null;
 
-  update(rect: Rect, context: Context): void {
-    this.cachedRect = rect;
+  protected update(rect: Rect, context: Context): void {
     this.handleResizes(rect, context);
     super.update(rect, context);
   }
@@ -154,28 +151,5 @@ export abstract class ResizeLayout extends DirectionalLayout {
         }
       }
     }
-  }
-
-  protected getSizeInPixels(allocation: Allocation): number {
-    if (!this.cachedRect) {
-      throw new Error("No cached rect to calculate pixel size from");
-    }
-    if (allocation.type === "pixel") {
-      return allocation.size;
-    }
-    return (
-      (allocation.size / this.sumRelativeAllocations()) *
-      ((this.isVertical ? this.cachedRect.height : this.cachedRect.width) -
-        this.sumPixelAllocations())
-    );
-  }
-
-  protected getMinSize(allocation: Allocation): number {
-    if (!allocation.minSize && allocation.minSize !== 0) {
-      return this.isVertical
-        ? allocation.minElementSize.height
-        : allocation.minElementSize.width;
-    }
-    return allocation.minSize;
   }
 }

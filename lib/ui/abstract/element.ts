@@ -11,20 +11,38 @@ export abstract class Element {
   private _style: StyleManager = new StyleManager(
     FALLBACK_THEME.getStyleFor(this),
   );
+  allowPassthrough: boolean = false;
 
   updateTheme(theme: Theme) {
     this._style.updateBaseStyle(theme.getStyleFor(this));
   }
 
-  protected renderSelf(rect: Rect, painter: Painter): void {
-    painter.setColor(this.style.fill);
-    painter.fillRect(rect);
-    painter.setColor(this.style.outline);
-    painter.outlineRect(rect);
+  updateElement(rect: Rect, context: Context, actions?: Actions): void {
+    this.update(rect, context, actions);
+
+    if (!this.allowPassthrough && rect.contains(context.mousePos)) {
+      context.haltInteraction();
+    }
   }
 
-  abstract update(rect: Rect, context: Context, actions?: Actions): void;
-  abstract render(rect: Rect, painter: Painter): void;
+  renderElement(rect: Rect, painter: Painter): void {
+    this.renderSelf(rect, painter);
+    this.render(rect, painter);
+  }
+
+  protected renderSelf(rect: Rect, painter: Painter): void {
+    painter.setColor(this.style.fill);
+    painter.fillRect(rect, this.style.rounding);
+    painter.setColor(this.style.outline);
+    painter.outlineRect(rect, this.style.rounding);
+  }
+
+  protected abstract update(
+    rect: Rect,
+    context: Context,
+    actions?: Actions,
+  ): void;
+  protected abstract render(rect: Rect, painter: Painter): void;
 
   get style(): Style {
     return this._style;

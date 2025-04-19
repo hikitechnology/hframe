@@ -2,6 +2,7 @@ import { HFrame } from "../lib/hframe";
 import { Themes } from "../lib/style/themes";
 import { Button } from "../lib/ui/elements/button";
 import { Text } from "../lib/ui/elements/text";
+import { Freeform } from "../lib/ui/layout/freeform";
 import { Horizontal } from "../lib/ui/layout/horizontal";
 import { Vertical } from "../lib/ui/layout/vertical";
 import { VerticalScroll } from "../lib/ui/layout/vertical-scroll";
@@ -21,6 +22,8 @@ const topLeft = new VerticalScroll();
 const topCenter = new Vertical();
 const topRight = new Vertical();
 
+topCenter.add(new Button("lkasjflkdsjfl"));
+
 app.addSized(menuBar, 20, false);
 menuBar.add(new Button("File")).add(new Button("Edit")).add(new Button("View"));
 menuBar.styleChildren({
@@ -28,7 +31,7 @@ menuBar.styleChildren({
   fill: Color.TRANSPARENT,
 });
 
-app.addRelative(topHalf, 1, true).addRelative(bottomHalf, 1, true);
+app.addRelative(topHalf, 1, true, 0).addRelative(bottomHalf, 1, true, 0);
 topHalf
   .addSized(topLeft, 200, true, 100)
   .addRelative(topCenter, 1, true)
@@ -47,5 +50,23 @@ const button = new Button("text", () => {
   }
 });
 topLeft.add(button);
-// text.style.fill = Color.RED;
-// button.style.fill = Color.BLUE;
+
+const freeform = new Freeform();
+freeform.allowPassthrough = true;
+hframe.addLayer(freeform);
+
+const menu = new Vertical();
+menu.add(new Button("Save")).gap(1);
+menu.add(new Button("Settings")).gap(1);
+menu.add(new Button("Exit")).gap(1);
+
+menu.styleChildren({
+  fill: Color.gray(190),
+  outline: Color.TRANSPARENT,
+  rounding: 0,
+  textCentered: false,
+});
+
+menu.style.fill = Color.gray(190);
+
+freeform.add(menu, undefined, undefined, "left", "top", 100, 100);
