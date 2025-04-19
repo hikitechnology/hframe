@@ -38,6 +38,16 @@ topHalf
   .addSized(topRight, 200, true, 100);
 
 topLeft.style.padding = 4;
+topLeft.add(
+  new Button("text", () => {
+    if (hframe.getCurrentTheme().isDark) {
+      hframe.setTheme(Themes.light);
+    } else {
+      hframe.setTheme(Themes.dark);
+    }
+  }),
+);
+
 const text = new Text(
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium, nunc sagittis facilisis auctor, metus tortor interdum augue, id rhoncus nunc nibh ut magna. Donec et varius elit, non luctus erat. Aliquam sit amet vehicula risus, et ornare lectus. Mauris sed mi eu mi blandit varius. Nullam non pretium lorem, quis mattis ante. Duis posuere sodales euismod. Quisque eget nisl imperdiet, aliquam sapien nec, rutrum magna. Aliquam erat volutpat. In suscipit non velit sed condimentum. Sed in erat pellentesque, sodales nisi vel, tristique tortor.",
 );
@@ -69,4 +79,4 @@ menu.styleChildren({
 
 menu.style.fill = Color.gray(190);
 
-freeform.add(menu, undefined, undefined, "left", "top", 100, 100);
+freeform.add(menu, 100, undefined, "left", "top", 100, 100);

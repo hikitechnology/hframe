@@ -3,7 +3,7 @@ import { Pos2D } from "./utils/shapes/pos2d";
 import { Vec2D } from "./utils/shapes/vec2d";
 
 export class Context {
-  private interactionPaused = false;
+  private _interactionPaused = false;
 
   private _mousePos: Pos2D = new Pos2D(Number.NaN, Number.NaN);
   private _mouseDelta: Vec2D = new Vec2D(0, 0);
@@ -85,7 +85,7 @@ export class Context {
   }
 
   refresh() {
-    this.interactionPaused = false;
+    this.resumeInteraction();
 
     this.canvas.style.cursor = this._cursor;
     this._cursor = "default";
@@ -101,7 +101,11 @@ export class Context {
   }
 
   haltInteraction() {
-    this.interactionPaused = true;
+    this._interactionPaused = true;
+  }
+
+  resumeInteraction() {
+    this._interactionPaused = false;
   }
 
   collectTextInput(
@@ -152,7 +156,7 @@ export class Context {
   }
 
   get mousePos(): Pos2D {
-    if (this.interactionPaused) {
+    if (this._interactionPaused) {
       return new Pos2D(NaN, NaN);
     }
     return this._mousePos;
@@ -204,5 +208,9 @@ export class Context {
 
   get justReleasedKeys(): string[] {
     return this._justReleasedKeys;
+  }
+
+  get interactionPaused(): boolean {
+    return this._interactionPaused;
   }
 }
