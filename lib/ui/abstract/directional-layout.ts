@@ -1,38 +1,17 @@
-import {
-  H_RESIZE_CURSOR,
-  RESIZE_LEEWAY,
-  V_RESIZE_CURSOR,
-} from "../../constants";
 import { Context } from "../../context";
 import { Painter } from "../../render/painter";
 import { Rect } from "../../utils/shapes/rect";
 import { Actions } from "./actions";
+import { Allocation } from "./allocation";
 import { Element } from "./element";
 import { Layout } from "./layout";
-
-type ResizeSide = "top" | "bottom" | "left" | "right";
-type Allocation = {
-  type: "pixel" | "relative";
-  size: number;
-  minSize?: number;
-  minElementSize: {
-    width: number;
-    height: number;
-  };
-  resizable: boolean;
-  setByUser: boolean;
-};
 
 export abstract class DirectionalLayout extends Layout {
   protected elements: Element[] = [];
   protected allocations: Allocation[] = [];
-  protected resizing: {
-    allocation: Allocation;
-    direction: ResizeSide;
-  } | null = null;
   protected cachedRect: Rect | null = null;
 
-  constructor(private isVertical: boolean) {
+  constructor(protected isVertical: boolean) {
     super();
   }
 
@@ -107,7 +86,6 @@ export abstract class DirectionalLayout extends Layout {
     this.cachedRect = rect;
 
     this.updateMinSizes();
-    this.handleResizes(rect, context);
 
     const afterPadding = rect.clone().grow(-this.style.padding);
     for (const element of this.elements) {
@@ -205,115 +183,5 @@ export abstract class DirectionalLayout extends Layout {
       .filter((alloc) => alloc.type === "relative")
       .reduce((sum, alloc) => sum + alloc.size, 0);
     return sum;
-  }
-
-  protected handleResizes(baseRect: Rect, context: Context) {
-    for (const element of this.elements) {
-      const allocation = this.getAllocation(element);
-      const rect = this.getAllocRect(baseRect, element);
-      if (!allocation.resizable) {
-        continue;
-      }
-
-      const hoveredEdge = this.getHoveredEdge(rect, context);
-      if (hoveredEdge && this.checkIfValidResize(element, hoveredEdge)) {
-        context.cursor = this.isVertical ? V_RESIZE_CURSOR : H_RESIZE_CURSOR;
-        if (context.justPressedMouse) {
-          this.resizing = {
-            allocation,
-            direction: hoveredEdge,
-          };
-        }
-      }
-    }
-    if (context.justReleasedMouse) {
-      this.resizing = null;
-    }
-    this.performResize(context);
-  }
-
-  protected getHoveredEdge(rect: Rect, context: Context): ResizeSide | null {
-    if (this.isVertical) {
-      if (rect.top.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {
-        return "top";
-      } else if (rect.bottom.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {
-        return "bottom";
-      }
-    } else {
-      if (rect.left.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {
-        return "left";
-      } else if (rect.right.touchesPoint(context.mousePos, RESIZE_LEEWAY)) {
-        return "right";
-      }
-    }
-
-    return null;
-  }
-
-  protected checkIfValidResize(
-    element: Element,
-    resizeSide: ResizeSide,
-  ): boolean {
-    const index = this.elements.indexOf(element);
-    const isFirst = index === 0;
-    const isLast = index === this.elements.length - 1;
-    if (!isFirst && (resizeSide === "left" || resizeSide === "top")) {
-      const prevConsents =
-        this.allocations[index - 1].type === "relative" ||
-        this.allocations[index - 1].resizable;
-      if (prevConsents) {
-        return true;
-      }
-    } else if (!isLast && (resizeSide === "right" || resizeSide === "bottom")) {
-      const nextConsents =
-        this.allocations[index + 1].type === "relative" ||
-        this.allocations[index + 1].resizable;
-      if (nextConsents) {
-        return true;
-      }
-    }
-
-    return false;
-  }
-
-  protected performResize(context: Context) {
-    if (this.resizing) {
-      context.cursor = this.isVertical ? V_RESIZE_CURSOR : H_RESIZE_CURSOR;
-      const thisAllocation = this.resizing.allocation;
-      const resizeDelta = context.mouseDelta[this.isVertical ? "y" : "x"];
-
-      if (
-        this.resizing.direction === "top" ||
-        this.resizing.direction === "left"
-      ) {
-        const prevAllocation =
-          this.allocations[this.allocations.indexOf(thisAllocation) - 1];
-        this.growAllocation(prevAllocation, resizeDelta);
-        this.growAllocation(thisAllocation, -resizeDelta);
-      } else {
-        const nextAllocation =
-          this.allocations[this.allocations.indexOf(thisAllocation) + 1];
-        this.growAllocation(thisAllocation, resizeDelta);
-        this.growAllocation(nextAllocation, -resizeDelta);
-      }
-    }
-  }
-
-  protected growAllocation(allocation: Allocation, adjustment: number) {
-    if (allocation.type === "pixel") {
-      allocation.size += adjustment;
-    } else {
-      if (this.cachedRect) {
-        const relatives = this.allocations.filter(
-          (alloc) => alloc.type === "relative",
-        );
-        const totalRelative =
-          (this.isVertical ? this.cachedRect.height : this.cachedRect.width) -
-          this.sumPixelAllocations();
-        const relativeAdjustment =
-          (adjustment / totalRelative) * relatives.length;
-        allocation.size += relativeAdjustment;
-      }
-    }
   }
 }

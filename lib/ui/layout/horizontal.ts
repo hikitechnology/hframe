@@ -1,6 +1,6 @@
-import { DirectionalLayout } from "../abstract/directional-layout";
+import { ResizeLayout } from "../abstract/resize-layout";
 
-export class Horizontal extends DirectionalLayout {
+export class Horizontal extends ResizeLayout {
   constructor() {
     super(false);
   }
