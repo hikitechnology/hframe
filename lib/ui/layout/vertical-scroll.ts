@@ -51,6 +51,7 @@ export class VerticalScroll extends DirectionalLayout {
     }
 
     if (this.draggingScrollbar) {
+      context.resumeInteraction();
       const scrollBarHeightPercent = rect.height / this.contentHeight;
       const scrollPercent =
         (context.mousePos.y - rect.y) / rect.height -
