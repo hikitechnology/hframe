@@ -8,7 +8,6 @@ import { Layout } from "./layout";
 
 export abstract class DirectionalLayout extends Layout {
   protected allocations: Allocation[] = [];
-  protected cachedRect: Rect | null = null;
 
   constructor(protected isVertical: boolean) {
     super();
@@ -82,8 +81,6 @@ export abstract class DirectionalLayout extends Layout {
   }
 
   update(rect: Rect, context: Context): void {
-    this.cachedRect = rect;
-
     this.updateMinSizes();
 
     const afterPadding = rect.clone().grow(-this.style.padding);

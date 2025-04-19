@@ -1,0 +1,136 @@
+import {
+  SCROLLBAR_HOVERED_WIDTH,
+  SCROLLBAR_ROUNDING,
+  SCROLLBAR_WIDTH,
+} from "../../constants";
+import { Context } from "../../context";
+import { Painter } from "../../render/painter";
+import { Rect } from "../../utils/shapes/rect";
+import { DirectionalLayout } from "../abstract/directional-layout";
+import { Element } from "../abstract/element";
+
+export class VerticalScroll extends DirectionalLayout {
+  private scrollOffset: number = 0;
+  private scrollbarHovered: boolean = false;
+  private draggingScrollbar: boolean = false;
+  private cachedRect: Rect | null = null;
+
+  constructor() {
+    super(true);
+  }
+
+  update(rect: Rect, context: Context): void {
+    this.cachedRect = rect;
+    if (rect.contains(context.mousePos)) {
+      this.scrollOffset += context.scrollDelta;
+    }
+    this.constrainScroll(rect);
+    super.update(this.getContentRect(rect), context);
+    this.updateScrollbar(rect, context);
+  }
+
+  render(rect: Rect, painter: Painter): void {
+    super.render(this.getContentRect(rect), painter);
+    this.renderScrollbar(rect, painter);
+  }
+
+  private updateScrollbar(rect: Rect, context: Context) {
+    const scrollbarCollider = Rect.from(
+      rect.x + rect.width - SCROLLBAR_HOVERED_WIDTH,
+      rect.y,
+      SCROLLBAR_HOVERED_WIDTH,
+      rect.height,
+    );
+
+    this.scrollbarHovered = scrollbarCollider.contains(context.mousePos);
+
+    if (this.scrollbarHovered && context.justPressedMouse) {
+      this.draggingScrollbar = true;
+    }
+
+    if (context.justReleasedMouse) {
+      this.draggingScrollbar = false;
+    }
+
+    if (this.draggingScrollbar) {
+      const scrollBarHeightPercent = rect.height / this.contentHeight;
+      const scrollPercent =
+        (context.mousePos.y - rect.y) / rect.height -
+        scrollBarHeightPercent / 2;
+      this.scrollOffset *= scrollPercent;
+    }
+  }
+
+  private renderScrollbar(rect: Rect, painter: Painter) {
+    if (rect.height < this.contentHeight) {
+      const scrollbarWidth =
+        this.scrollbarHovered || this.draggingScrollbar
+          ? SCROLLBAR_HOVERED_WIDTH
+          : SCROLLBAR_WIDTH;
+
+      const background = Rect.from(
+        rect.x + rect.width - scrollbarWidth,
+        rect.y,
+        scrollbarWidth,
+        rect.height,
+      );
+
+      const scrollbarHeight = (rect.height / this.contentHeight) * rect.height;
+      const scrollbarY =
+        (rect.height / this.contentHeight) * this.scrollOffset + rect.y;
+
+      const scrollbar = Rect.from(
+        rect.x + rect.width - scrollbarWidth,
+        scrollbarY,
+        scrollbarWidth,
+        scrollbarHeight,
+      );
+
+      painter.setColor(this.style.scrollbarOutline);
+      painter.outlineRect(background);
+
+      painter.setColor(this.style.scrollbarBackground);
+      painter.fillRect(background);
+
+      painter.setColor(this.style.scrollbarColor);
+      painter.fillRect(scrollbar, SCROLLBAR_ROUNDING);
+    }
+  }
+
+  protected getAllocRect(baseRect: Rect, element: Element): Rect {
+    const rect = super.getAllocRect(baseRect, element);
+    rect.y -= this.scrollOffset;
+    return rect;
+  }
+
+  private constrainScroll(rect: Rect) {
+    this.scrollOffset = Math.max(
+      Math.min(this.scrollOffset, this.contentHeight - rect.height),
+      0,
+    );
+  }
+
+  private getContentRect(baseRect: Rect) {
+    if (baseRect.height < this.contentHeight) {
+      const newRect = baseRect.clone();
+      newRect.width -= SCROLLBAR_WIDTH;
+      return newRect;
+    } else {
+      return baseRect;
+    }
+  }
+
+  private get contentHeight(): number {
+    if (this.cachedRect) {
+      let maxY = 0;
+      for (const element of this.elements) {
+        const rect = super.getAllocRect(this.cachedRect, element);
+        if (rect.y + rect.height > maxY) {
+          maxY = rect.y + rect.height;
+        }
+      }
+      return maxY - this.cachedRect.y + this.style.padding * 2;
+    }
+    return 0;
+  }
+}

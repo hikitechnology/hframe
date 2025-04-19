@@ -16,10 +16,12 @@ export abstract class ResizeLayout extends DirectionalLayout {
     allocation: Allocation;
     direction: ResizeSide;
   } | null = null;
+  protected cachedRect: Rect | null = null;
 
   update(rect: Rect, context: Context): void {
-    super.update(rect, context);
+    this.cachedRect = rect;
     this.handleResizes(rect, context);
+    super.update(rect, context);
   }
 
   protected handleResizes(baseRect: Rect, context: Context) {
@@ -125,6 +127,8 @@ export abstract class ResizeLayout extends DirectionalLayout {
           this.growAllocation(nextAllocation, -resizeDelta);
         }
       }
+
+      context.haltInteraction();
     }
   }
 
@@ -147,7 +151,6 @@ export abstract class ResizeLayout extends DirectionalLayout {
           const relativeAdjustment =
             (adjustment / totalRelative) * totalRelativeSize;
           allocation.size += relativeAdjustment;
-          console.log(allocation.size);
         }
       }
     }
