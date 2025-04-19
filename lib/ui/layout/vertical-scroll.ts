@@ -24,9 +24,9 @@ export class VerticalScroll extends DirectionalLayout {
     if (rect.contains(context.mousePos)) {
       this.scrollOffset += context.scrollDelta;
     }
+    this.updateScrollbar(rect, context);
     this.constrainScroll(rect);
     super.update(this.getContentRect(rect), context);
-    this.updateScrollbar(rect, context);
   }
 
   render(rect: Rect, painter: Painter): void {
@@ -57,7 +57,7 @@ export class VerticalScroll extends DirectionalLayout {
       const scrollPercent =
         (context.mousePos.y - rect.y) / rect.height -
         scrollBarHeightPercent / 2;
-      this.scrollOffset *= scrollPercent;
+      this.scrollOffset = this.contentHeight * scrollPercent;
     }
   }
 
