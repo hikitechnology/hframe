@@ -1,11 +1,8 @@
-import { DOUBLE_CLICK_INTERVAL, FALLBACK_THEME } from "./constants";
-import { Theme } from "./style/theme";
+import { DOUBLE_CLICK_INTERVAL } from "./constants";
 import { Pos2D } from "./utils/shapes/pos2d";
 import { Vec2D } from "./utils/shapes/vec2d";
 
 export class Context {
-  private theme: Theme = FALLBACK_THEME;
-
   private _mousePos: Pos2D = new Pos2D(Number.NaN, Number.NaN);
   private _mouseDelta: Vec2D = new Vec2D(0, 0);
   private _isMouseDown: boolean = false;
@@ -152,14 +149,6 @@ export class Context {
 
   setTextSelectionRange(start: number, end: number = start) {
     this.hiddenTextarea.setSelectionRange(start, end);
-  }
-
-  getCurrentTheme(): Theme {
-    return this.theme;
-  }
-
-  setTheme(theme: Theme) {
-    this.theme = theme;
   }
 
   get mousePos(): Pos2D {

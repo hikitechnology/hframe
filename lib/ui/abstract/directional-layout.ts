@@ -7,7 +7,6 @@ import { Element } from "./element";
 import { Layout } from "./layout";
 
 export abstract class DirectionalLayout extends Layout {
-  protected elements: Element[] = [];
   protected allocations: Allocation[] = [];
   protected cachedRect: Rect | null = null;
 

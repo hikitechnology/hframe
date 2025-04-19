@@ -53,6 +53,7 @@ export class Text extends Element {
     }
     this.renderSelf(rect, painter);
 
+    painter.clip(rect);
     painter.setColor(this.style.textColor);
     let yOffset = 0;
     for (let i = 0; i < this.lines.length; i++) {
@@ -65,5 +66,6 @@ export class Text extends Element {
         this.style.fontSize,
       );
     }
+    painter.unclip();
   }
 }

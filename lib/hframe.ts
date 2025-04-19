@@ -1,3 +1,4 @@
+import { FALLBACK_THEME } from "./constants";
 import { Context } from "./context";
 import { Canvas2DPainter } from "./render/canvas-2d-painter";
 import { Painter } from "./render/painter";
@@ -9,6 +10,7 @@ import { Rect } from "./utils/shapes/rect";
  * HFrame root element
  */
 export class HFrame {
+  private theme: Theme = FALLBACK_THEME;
   private painter: Painter;
   private layers: Layout[] = [];
   private context: Context;
@@ -38,11 +40,14 @@ export class HFrame {
   }
 
   setTheme(theme: Theme) {
-    this.context.setTheme(theme);
+    this.theme = theme;
+    for (const layout of this.layers) {
+      layout.updateTheme(theme);
+    }
   }
 
   getCurrentTheme() {
-    return this.context.getCurrentTheme();
+    return this.theme;
   }
 
   addLayer(layout: Layout) {

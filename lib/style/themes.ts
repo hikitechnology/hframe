@@ -1,4 +1,5 @@
 import { Layout } from "../ui/abstract/layout";
+import { Button } from "../ui/elements/button";
 import { Color } from "../utils/color";
 import { ThemeBuilder } from "./theme-builder";
 
@@ -16,10 +17,17 @@ export const Themes = {
     scrollbarOutline: Color.gray(144),
     sliderBackground: Color.gray(144),
     sliderDotFill: Color.gray(60),
-  }).setStyleFor(Layout, {
-    fill: Color.gray(234),
-    outline: Color.gray(144),
-  }),
+  })
+    .setStyleFor(Layout, {
+      fill: Color.gray(234),
+      outline: Color.gray(144),
+    })
+    .setStyleFor(Button, {
+      padding: 4,
+      fill: Color.gray(211),
+      outline: Color.gray(144),
+      rounding: 3,
+    }),
   dark: ThemeBuilder.setIsDark(true)
     .setDefault({
       padding: 0,
@@ -38,5 +46,11 @@ export const Themes = {
     .setStyleFor(Layout, {
       fill: Color.gray(30),
       outline: Color.gray(80),
+    })
+    .setStyleFor(Button, {
+      padding: 4,
+      fill: Color.gray(45),
+      outline: Color.gray(80),
+      rounding: 3,
     }),
 };
