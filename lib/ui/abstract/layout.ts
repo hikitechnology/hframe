@@ -23,8 +23,4 @@ export abstract class Layout extends Element {
       element.style.updateCustomStyle(style);
     }
   }
-
-  abstract add(element: Element): void;
-  abstract remove(element: Element): void;
-  abstract includes(element: Element): boolean;
 }

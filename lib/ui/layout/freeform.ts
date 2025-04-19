@@ -22,13 +22,16 @@ export class Freeform extends Layout {
 
   add(
     element: Element,
-    width?: number,
-    height?: number,
-    anchorX: Allocation["anchorX"] = "left",
-    anchorY: Allocation["anchorY"] = "top",
-    xOffset: number = 0,
-    yOffset: number = 0,
+    allocation: Partial<Omit<Allocation, "minElementSize">> = {},
   ): void {
+    const {
+      anchorX = "left",
+      anchorY = "top",
+      xOffset = 0,
+      yOffset = 0,
+      width,
+      height,
+    } = allocation;
     this.elements.push(element);
     this.allocations.push({
       width,
@@ -42,6 +45,17 @@ export class Freeform extends Layout {
         height: element.minHeight,
       },
     });
+  }
+
+  set(
+    element: Element,
+    allocation: Partial<Omit<Allocation, "minElementSize">>,
+  ) {
+    const index = this.elements.indexOf(element);
+    this.allocations[index] = {
+      ...this.allocations[index],
+      ...allocation,
+    };
   }
 
   remove(element: Element): void {

@@ -79,4 +79,4 @@ menu.styleChildren({
 
 menu.style.fill = Color.gray(190);
 
-freeform.add(menu, 100, undefined, "left", "top", 100, 100);
+freeform.add(menu, { xOffset: 0, yOffset: 20, width: 100, height: undefined });
