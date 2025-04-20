@@ -26,8 +26,6 @@ const topLeft = new VerticalScroll();
 const topCenter = new Vertical();
 const topRight = new Vertical();
 
-topCenter.add(new Button("lkasjflkdsjfl"));
-
 app.addSized(menuBar, 20, false);
 const fileButton = new Button("File");
 const editButton = new Button("Edit");
@@ -100,11 +98,11 @@ cslider.style.fill = Color.TRANSPARENT;
 const label = new Text("0", 14);
 cslider
   .add(
-    new Slider(-10, 10, 0, 1, (value) => {
+    new Slider(-10, 10, 0, 0.1, (value) => {
       label.text = value.toString();
     }),
   )
-  .addSized(label, 20)
+  .addSized(label, 24)
   .gap(6);
 topRight.addSized(cslider, 20);
 topRight.style.padding = 4;

@@ -205,16 +205,13 @@ export abstract class DirectionalLayout extends Layout {
     return Rect.from(x, y, width, height);
   }
 
-  protected getSizeInPixels(allocation: Allocation): number {
-    if (!this.cachedRect) {
-      throw new Error("No cached rect to calculate pixel size from");
-    }
+  protected getSizeInPixels(baseRect: Rect, allocation: Allocation): number {
     if (allocation.type === "pixel") {
       return allocation.size;
     }
     return (
       (allocation.size / this.sumRelativeAllocations()) *
-      ((this.isVertical ? this.cachedRect.height : this.cachedRect.width) -
+      ((this.isVertical ? baseRect.height : baseRect.width) -
         this.sumPixelAllocations())
     );
   }
@@ -256,7 +253,7 @@ export abstract class DirectionalLayout extends Layout {
       } else {
         let width = 0;
         for (const alloc of this.allocations) {
-          width += this.getSizeInPixels(alloc);
+          width += this.getSizeInPixels(this.cachedRect, alloc);
         }
         return width + 2 * this.style.padding;
       }
@@ -270,7 +267,7 @@ export abstract class DirectionalLayout extends Layout {
       if (this.isVertical) {
         let height = 0;
         for (const alloc of this.allocations) {
-          height += this.getSizeInPixels(alloc);
+          height += this.getSizeInPixels(this.cachedRect, alloc);
         }
         return height + 2 * this.style.padding;
       } else {
