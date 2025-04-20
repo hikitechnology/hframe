@@ -62,7 +62,9 @@ export class Text extends Element {
         this.lines[i],
         this.style.textCentered ? rect.center.x : rect.x,
         (this.style.textCentered
-          ? rect.center.y - this.height / 2 + this.style.fontSize / 2
+          ? rect.center.y -
+            this.height / 2 +
+            (this.style.fontSize * this.style.lineSpacing) / 2
           : rect.y) + yOffset,
         this.style.textCentered,
         this.style.fontSize,

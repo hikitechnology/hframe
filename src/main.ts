@@ -97,7 +97,7 @@ topCenter.add(new Image(image));
 const cslider = new Horizontal();
 cslider.style.outline = Color.TRANSPARENT;
 cslider.style.fill = Color.TRANSPARENT;
-const label = new Text();
+const label = new Text("0", 14);
 cslider
   .add(
     new Slider(-10, 10, 0, 1, (value) => {
