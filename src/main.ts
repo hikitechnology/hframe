@@ -1,7 +1,8 @@
 import { HFrame } from "../lib/hframe";
 import { Themes } from "../lib/style/themes";
-import { Button } from "../lib/ui/elements/button";
-import { Text } from "../lib/ui/elements/text";
+import { Button } from "../lib/ui/elements/basic/button";
+import { Text } from "../lib/ui/elements/basic/text";
+import { Menu } from "../lib/ui/elements/compound/menu";
 import { Freeform } from "../lib/ui/layout/freeform";
 import { Horizontal } from "../lib/ui/layout/horizontal";
 import { Vertical } from "../lib/ui/layout/vertical";
@@ -25,7 +26,10 @@ const topRight = new Vertical();
 topCenter.add(new Button("lkasjflkdsjfl"));
 
 app.addSized(menuBar, 20, false);
-menuBar.add(new Button("File")).add(new Button("Edit")).add(new Button("View"));
+const fileButton = new Button("File");
+const editButton = new Button("Edit");
+const viewButton = new Button("View");
+menuBar.add(fileButton).add(editButton).add(viewButton);
 menuBar.styleChildren({
   outline: Color.TRANSPARENT,
   fill: Color.TRANSPARENT,
@@ -65,18 +69,28 @@ const freeform = new Freeform();
 freeform.allowPassthrough = true;
 hframe.addLayer(freeform);
 
-const menu = new Vertical();
-menu.add(new Button("Save")).gap(1);
-menu.add(new Button("Settings")).gap(1);
-menu.add(new Button("Exit")).gap(1);
+const menu = new Menu(freeform, [
+  new Button("Save"),
+  new Button("Settings"),
+  new Button("Quit"),
+]);
 
-menu.styleChildren({
-  fill: Color.gray(190),
-  outline: Color.TRANSPARENT,
-  rounding: 0,
-  textCentered: false,
-});
+fileButton.onClick = () => {
+  menu.openAt(0, 20);
+};
 
-menu.style.fill = Color.gray(190);
-
-freeform.add(menu, { xOffset: 0, yOffset: 20, width: 100, height: undefined });
+// const menu = new Vertical();
+// menu.add(new Button("Save")).gap(1);
+// menu.add(new Button("Settings")).gap(1);
+// menu.add(new Button("Exit")).gap(1);
+//
+// menu.styleChildren({
+//   fill: Color.gray(190),
+//   outline: Color.TRANSPARENT,
+//   rounding: 0,
+//   textCentered: false,
+// });
+//
+// menu.style.fill = Color.gray(190);
+//
+// freeform.add(menu, { xOffset: 0, yOffset: 20, width: 100, height: undefined });

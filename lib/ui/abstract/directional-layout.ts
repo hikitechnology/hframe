@@ -1,7 +1,7 @@
 import { Context } from "../../context";
 import { Painter } from "../../render/painter";
 import { Rect } from "../../utils/shapes/rect";
-import { Gap } from "../elements/gap";
+import { Gap } from "../elements/basic/gap";
 import { Actions } from "./actions";
 import { Element } from "./element";
 import { Layout } from "./layout";
@@ -26,12 +26,13 @@ export abstract class DirectionalLayout extends Layout {
     super();
   }
 
-  gap(size?: number) {
+  gap(size?: number): typeof this {
     if (size) {
       this.addSized(new Gap(), size);
     } else {
       this.add(new Gap());
     }
+    return this;
   }
 
   add(element: Element): typeof this {
@@ -138,7 +139,7 @@ export abstract class DirectionalLayout extends Layout {
     }
   }
 
-  render(rect: Rect, painter: Painter): void {
+  protected render(rect: Rect, painter: Painter): void {
     painter.clip(rect);
     const afterPadding = rect.clone().grow(-this.style.padding);
     for (const element of this.elements) {

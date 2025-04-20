@@ -1,8 +1,8 @@
-import { Context } from "../../context";
-import { Painter } from "../../render/painter";
-import { Rect } from "../../utils/shapes/rect";
-import { Actions } from "../abstract/actions";
-import { Element } from "../abstract/element";
+import { Context } from "../../../context";
+import { Painter } from "../../../render/painter";
+import { Rect } from "../../../utils/shapes/rect";
+import { Actions } from "../../abstract/actions";
+import { Element } from "../../abstract/element";
 
 export class Text extends Element {
   private cachedPainter: Painter | null = null;

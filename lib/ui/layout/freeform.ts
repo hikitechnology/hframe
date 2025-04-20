@@ -5,8 +5,8 @@ import { Element } from "../abstract/element";
 import { Layout } from "../abstract/layout";
 
 type Allocation = {
-  width?: number;
-  height?: number;
+  width: number | null;
+  height: number | null;
   anchorX: "left" | "right";
   anchorY: "top" | "bottom";
   xOffset: number;
@@ -29,8 +29,8 @@ export class Freeform extends Layout {
       anchorY = "top",
       xOffset = 0,
       yOffset = 0,
-      width,
-      height,
+      width = null,
+      height = null,
     } = allocation;
     this.elements.push(element);
     this.allocations.push({
@@ -68,7 +68,7 @@ export class Freeform extends Layout {
     return this.elements.includes(element);
   }
 
-  update(rect: Rect, context: Context): void {
+  protected update(rect: Rect, context: Context): void {
     this.updateMinSizes();
 
     for (const element of this.elements) {
@@ -77,7 +77,7 @@ export class Freeform extends Layout {
     }
   }
 
-  render(rect: Rect, painter: Painter): void {
+  protected render(rect: Rect, painter: Painter): void {
     for (const element of this.elements) {
       const allocRect = this.getAllocRect(rect, element);
       element.renderElement(allocRect, painter);
@@ -123,14 +123,14 @@ export class Freeform extends Layout {
   }
 
   private getAllocWidth(allocation: Allocation): number {
-    if (!allocation.width && allocation.width !== 0) {
+    if (allocation.width === null) {
       return allocation.minElementSize.width;
     }
     return allocation.width;
   }
 
   private getAllocHeight(allocation: Allocation): number {
-    if (!allocation.height && allocation.height !== 0) {
+    if (allocation.height === null) {
       return allocation.minElementSize.height;
     }
     return allocation.height;

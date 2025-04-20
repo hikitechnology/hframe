@@ -1,5 +1,5 @@
 import { DirectionalLayout } from "../ui/abstract/directional-layout";
-import { Button } from "../ui/elements/button";
+import { Button } from "../ui/elements/basic/button";
 import { Color } from "../utils/color";
 import { ThemeBuilder } from "./theme-builder";
 

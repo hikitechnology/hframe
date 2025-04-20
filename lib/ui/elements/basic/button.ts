@@ -1,10 +1,10 @@
-import { BUTTON_HOVERED_CHANGE } from "../../constants";
-import { Context } from "../../context";
-import { Painter } from "../../render/painter";
-import { Color } from "../../utils/color";
-import { Rect } from "../../utils/shapes/rect";
-import { Actions } from "../abstract/actions";
-import { Element } from "../abstract/element";
+import { BUTTON_HOVERED_CHANGE } from "../../../constants";
+import { Context } from "../../../context";
+import { Painter } from "../../../render/painter";
+import { Color } from "../../../utils/color";
+import { Rect } from "../../../utils/shapes/rect";
+import { Actions } from "../../abstract/actions";
+import { Element } from "../../abstract/element";
 
 export class Button extends Element {
   private hovered: boolean = false;
