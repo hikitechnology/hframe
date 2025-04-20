@@ -16,23 +16,27 @@ export class TextInput extends KeyboardInput {
     if (actions) {
       actions.requestHeight(this.style.fontSize + 2 * this.style.padding);
     }
-    if (rect.contains(context.mousePos) && context.justPressedMouse) {
-      this.focus();
-      this.collectInput(context);
+    if (rect.contains(context.mousePos)) {
+      context.cursor = "text";
 
-      if (this.cachedPainter) {
-        const caretPos = this.getCaretPositionFromMouse(
-          context.mousePos.x,
-          rect,
-          this.cachedPainter,
-        );
-        if (context.justDoubleClicked) {
-          this.selectAll(context);
-        } else {
-          this.selectionStart = caretPos;
-          this.selectionEnd = caretPos;
-          this.dragSelectStart = caretPos;
-          context.setTextSelectionRange(caretPos, caretPos);
+      if (context.justPressedMouse) {
+        this.focus();
+        this.collectInput(context);
+
+        if (this.cachedPainter) {
+          const caretPos = this.getCaretPositionFromMouse(
+            context.mousePos.x,
+            rect,
+            this.cachedPainter,
+          );
+          if (context.justDoubleClicked) {
+            this.selectAll(context);
+          } else {
+            this.selectionStart = caretPos;
+            this.selectionEnd = caretPos;
+            this.dragSelectStart = caretPos;
+            context.setTextSelectionRange(caretPos, caretPos);
+          }
         }
       }
     } else if (context.justPressedMouse) {
