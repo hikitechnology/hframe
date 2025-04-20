@@ -30,7 +30,7 @@ export class Context {
     // set up listeners
     let lastClickTime = 0;
     let lastClickPos = new Pos2D(NaN, NaN);
-    canvas.addEventListener("mousedown", (event) => {
+    document.addEventListener("mousedown", (event) => {
       const isLeft = event.buttons === 1;
       if (isLeft) {
         this._isMouseDown = true;
@@ -45,22 +45,22 @@ export class Context {
         lastClickPos = this._mousePos.clone();
       }
     });
-    canvas.addEventListener("mouseup", () => {
+    document.addEventListener("mouseup", () => {
       this._isMouseDown = false;
       this._justReleasedMouse = true;
     });
-    canvas.addEventListener("contextmenu", (event) => {
+    document.addEventListener("contextmenu", (event) => {
       event.preventDefault();
       this._justPressedRightMouse = true;
     });
-    canvas.addEventListener("mousemove", (event) => {
+    document.addEventListener("mousemove", (event) => {
       this._mouseDelta.x += event.x - this._mousePos.x;
       this._mouseDelta.y += event.y - this._mousePos.y;
 
       this._mousePos.x = event.x;
       this._mousePos.y = event.y;
     });
-    canvas.addEventListener("wheel", (event) => {
+    document.addEventListener("wheel", (event) => {
       this._scrollDelta += event.deltaY;
     });
 

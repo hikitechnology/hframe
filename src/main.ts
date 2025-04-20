@@ -2,8 +2,10 @@ import { HFrame } from "../lib/hframe";
 import { Themes } from "../lib/style/themes";
 import { Button } from "../lib/ui/elements/basic/button";
 import { Image } from "../lib/ui/elements/basic/image";
+import { NumberInput } from "../lib/ui/elements/basic/number-input";
 import { Slider } from "../lib/ui/elements/basic/slider";
 import { Text } from "../lib/ui/elements/basic/text";
+import { TextInput } from "../lib/ui/elements/basic/text-input";
 import { Menu } from "../lib/ui/elements/compound/menu";
 import { Freeform } from "../lib/ui/layout/freeform";
 import { Horizontal } from "../lib/ui/layout/horizontal";
@@ -109,6 +111,9 @@ topRight.style.padding = 4;
 topRight.add(new Text("test"));
 
 label.style.textCentered = true;
+
+topRight.add(new TextInput());
+topRight.add(new NumberInput(-10, 10, 0, 0.1));
 
 // topRight.style.padding = 4;
 // topRight.add(new Slider());

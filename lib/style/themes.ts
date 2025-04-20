@@ -1,6 +1,6 @@
 import { DirectionalLayout } from "../ui/abstract/directional-layout";
+import { KeyboardInput } from "../ui/abstract/keyboard-input";
 import { Button } from "../ui/elements/basic/button";
-import { Menu } from "../ui/elements/compound/menu";
 import { Color } from "../utils/color";
 import { ThemeBuilder } from "./theme-builder";
 
@@ -31,8 +31,10 @@ export const Themes = {
       rounding: 3,
       textCentered: true,
     })
-    .setStyleFor(Menu, {
-      fill: Color.gray(234),
+    .setStyleFor(KeyboardInput, {
+      padding: 4,
+      fill: Color.gray(211),
+      outline: Color.gray(144),
     }),
   dark: ThemeBuilder.setIsDark(true)
     .setDefault({
@@ -60,5 +62,10 @@ export const Themes = {
       outline: Color.gray(80),
       rounding: 3,
       textCentered: true,
+    })
+    .setStyleFor(KeyboardInput, {
+      padding: 4,
+      fill: Color.gray(45),
+      outline: Color.gray(80),
     }),
 };
