@@ -60,13 +60,14 @@ export class Button extends Element {
     painter.setColor(this.style.textColor);
     painter.text(
       this.text,
-      this.style.textCentered
+      this.style.textCenteredH
         ? rect.center.x
         : rect.topLeft.x + this.style.padding,
-      this.style.textCentered
+      this.style.textCenteredV
         ? rect.center.y
         : rect.topLeft.y + this.style.padding,
-      this.style.textCentered,
+      this.style.textCenteredH,
+      this.style.textCenteredV,
       this.style.fontSize,
     );
   }

@@ -60,13 +60,14 @@ export class Text extends Element {
       yOffset = i * this.style.fontSize * this.style.lineSpacing;
       painter.text(
         this.lines[i],
-        this.style.textCentered ? rect.center.x : rect.x,
-        (this.style.textCentered
+        this.style.textCenteredH ? rect.center.x : rect.x,
+        (this.style.textCenteredV
           ? rect.center.y -
             this.height / 2 +
             (this.style.fontSize * this.style.lineSpacing) / 2
           : rect.y) + yOffset,
-        this.style.textCentered,
+        this.style.textCenteredH,
+        this.style.textCenteredV,
         this.style.fontSize,
       );
     }

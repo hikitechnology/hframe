@@ -12,7 +12,8 @@ export const Themes = {
     textColor: Color.BLACK,
     rounding: 0,
     fontSize: 13,
-    textCentered: false,
+    textCenteredV: false,
+    textCenteredH: false,
     lineSpacing: 1.1,
     scrollbarBackground: Color.gray(200),
     scrollbarColor: Color.gray(50),
@@ -29,7 +30,8 @@ export const Themes = {
       fill: Color.gray(211),
       outline: Color.gray(144),
       rounding: 3,
-      textCentered: true,
+      textCenteredV: true,
+      textCenteredH: true,
     })
     .setStyleFor(KeyboardInput, {
       padding: 4,
@@ -44,7 +46,8 @@ export const Themes = {
       textColor: Color.WHITE,
       rounding: 0,
       fontSize: 13,
-      textCentered: false,
+      textCenteredV: false,
+      textCenteredH: false,
       lineSpacing: 1.1,
       scrollbarBackground: Color.gray(0),
       scrollbarColor: Color.gray(100),
@@ -61,7 +64,8 @@ export const Themes = {
       fill: Color.gray(45),
       outline: Color.gray(80),
       rounding: 3,
-      textCentered: true,
+      textCenteredV: true,
+      textCenteredH: true,
     })
     .setStyleFor(KeyboardInput, {
       padding: 4,

@@ -85,16 +85,12 @@ export class Canvas2DPainter implements Painter {
     text: string,
     x: number,
     y: number,
-    fromCenter: boolean = false,
+    fromCenterH: boolean = false,
+    fromCenterV: boolean = false,
     fontSize: number = 12,
   ) {
-    if (fromCenter) {
-      this.ctx.textBaseline = "middle";
-      this.ctx.textAlign = "center";
-    } else {
-      this.ctx.textBaseline = "top";
-      this.ctx.textAlign = "start";
-    }
+    this.ctx.textAlign = fromCenterH ? "center" : "start";
+    this.ctx.textBaseline = fromCenterV ? "middle" : "top";
 
     this.ctx.font = `${fontSize}px Arial`;
     this.ctx.fillText(text, x, y);

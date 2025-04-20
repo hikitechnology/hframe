@@ -66,7 +66,8 @@ export interface Painter {
     text: string,
     x: number,
     y: number,
-    fromCenter?: boolean,
+    fromCenterV: boolean,
+    fromCenterH: boolean,
     fontSize?: number,
   ): void;
 

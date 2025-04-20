@@ -7,7 +7,8 @@ export interface Style {
   textColor: Color;
   rounding: number;
   fontSize: number;
-  textCentered: boolean;
+  textCenteredV: boolean;
+  textCenteredH: boolean;
   lineSpacing: number;
   scrollbarBackground: Color;
   scrollbarColor: Color;

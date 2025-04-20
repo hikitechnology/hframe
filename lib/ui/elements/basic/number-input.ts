@@ -53,6 +53,7 @@ export class NumberInput extends KeyboardInput {
       rect.x + this.style.padding - this.textShift,
       rect.y + this.style.padding,
       false,
+      false,
       this.style.fontSize,
     );
     painter.unclip();

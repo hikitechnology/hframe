@@ -30,7 +30,7 @@ export class Menu extends Element {
     this.innerLayout.styleChildren({
       outline: Color.TRANSPARENT,
       rounding: 0,
-      textCentered: false,
+      textCenteredH: false,
     });
   }
 
