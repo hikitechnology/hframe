@@ -1,6 +1,7 @@
 import { Style } from "../../style/style";
 import { StyleManager } from "../../style/style-manager";
 import { Theme } from "../../style/theme";
+import { Rect } from "../../utils/shapes/rect";
 import { Element } from "./element";
 
 export abstract class Layout extends Element {
@@ -23,4 +24,6 @@ export abstract class Layout extends Element {
       element.style.updateCustomStyle(style);
     }
   }
+
+  abstract getRect(element: Element): Rect;
 }

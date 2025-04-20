@@ -19,6 +19,7 @@ type Allocation = {
 
 export class Freeform extends Layout {
   private allocations: Allocation[] = [];
+  private cachedRect: Rect | null = null;
 
   add(
     element: Element,
@@ -68,7 +69,15 @@ export class Freeform extends Layout {
     return this.elements.includes(element);
   }
 
+  getRect(element: Element): Rect {
+    if (!this.cachedRect) {
+      return Rect.from(NaN, NaN, NaN, NaN);
+    }
+    return this.getAllocRect(this.cachedRect, element);
+  }
+
   protected update(rect: Rect, context: Context): void {
+    this.cachedRect = rect;
     this.updateMinSizes();
 
     for (const element of this.elements) {

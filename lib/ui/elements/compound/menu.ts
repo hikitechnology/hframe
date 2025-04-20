@@ -1,6 +1,8 @@
 import { Context } from "../../../context";
 import { Painter } from "../../../render/painter";
+import { Theme } from "../../../style/theme";
 import { Color } from "../../../utils/color";
+import { Pos2D } from "../../../utils/shapes/pos2d";
 import { Rect } from "../../../utils/shapes/rect";
 import { Element } from "../../abstract/element";
 import { Freeform } from "../../layout/freeform";
@@ -10,6 +12,7 @@ import { Button } from "../basic/button";
 export class Menu extends Element {
   private open: boolean = false;
   private justClosed: boolean = false;
+  private prevPos: Pos2D | null = null;
   private innerLayout = new Vertical();
 
   constructor(
@@ -32,7 +35,11 @@ export class Menu extends Element {
   }
 
   openAt(x: number, y: number) {
-    if (this.justClosed) {
+    if (
+      this.justClosed &&
+      this.prevPos &&
+      this.prevPos.equals(new Pos2D(x, y))
+    ) {
       return;
     }
     this.open = true;
@@ -49,6 +56,7 @@ export class Menu extends Element {
   close() {
     this.justClosed = true;
     this.open = false;
+    this.prevPos = this.layer.getRect(this).topLeft;
     this.layer.set(this, {
       width: 0,
       height: 0,
@@ -70,6 +78,11 @@ export class Menu extends Element {
 
   protected render(rect: Rect, painter: Painter): void {
     this.innerLayout.renderElement(rect, painter);
+  }
+
+  updateTheme(theme: Theme): void {
+    super.updateTheme(theme);
+    this.innerLayout.updateTheme(theme);
   }
 
   get minWidth() {

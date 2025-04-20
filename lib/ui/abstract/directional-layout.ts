@@ -102,6 +102,13 @@ export abstract class DirectionalLayout extends Layout {
     return this.elements.includes(element);
   }
 
+  getRect(element: Element): Rect {
+    if (!this.cachedRect) {
+      return Rect.from(NaN, NaN, NaN, NaN);
+    }
+    return this.getAllocRect(this.cachedRect, element);
+  }
+
   protected update(rect: Rect, context: Context): void {
     const pausedBefore = context.interactionPaused;
 

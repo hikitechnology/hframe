@@ -1,5 +1,6 @@
 import { DirectionalLayout } from "../ui/abstract/directional-layout";
 import { Button } from "../ui/elements/basic/button";
+import { Menu } from "../ui/elements/compound/menu";
 import { Color } from "../utils/color";
 import { ThemeBuilder } from "./theme-builder";
 
@@ -29,6 +30,9 @@ export const Themes = {
       outline: Color.gray(144),
       rounding: 3,
       textCentered: true,
+    })
+    .setStyleFor(Menu, {
+      fill: Color.gray(234),
     }),
   dark: ThemeBuilder.setIsDark(true)
     .setDefault({

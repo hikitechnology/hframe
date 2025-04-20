@@ -76,21 +76,10 @@ const menu = new Menu(freeform, [
 ]);
 
 fileButton.onClick = () => {
-  menu.openAt(0, 20);
+  const buttonPos = menuBar.getRect(fileButton).bottomLeft;
+  menu.openAt(buttonPos.x, buttonPos.y);
 };
-
-// const menu = new Vertical();
-// menu.add(new Button("Save")).gap(1);
-// menu.add(new Button("Settings")).gap(1);
-// menu.add(new Button("Exit")).gap(1);
-//
-// menu.styleChildren({
-//   fill: Color.gray(190),
-//   outline: Color.TRANSPARENT,
-//   rounding: 0,
-//   textCentered: false,
-// });
-//
-// menu.style.fill = Color.gray(190);
-//
-// freeform.add(menu, { xOffset: 0, yOffset: 20, width: 100, height: undefined });
+editButton.onClick = () => {
+  const buttonPos = menuBar.getRect(editButton).bottomLeft;
+  menu.openAt(buttonPos.x, buttonPos.y);
+};
