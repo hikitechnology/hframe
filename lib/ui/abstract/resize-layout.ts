@@ -139,9 +139,9 @@ export abstract class ResizeLayout extends DirectionalLayout {
         const nextAllocation =
           this.allocations[this.allocations.indexOf(thisAllocation) + 1];
         if (
-          this.getSizeInPixels(this.cachedRect, thisAllocation) - resizeDelta >=
+          this.getSizeInPixels(this.cachedRect, thisAllocation) + resizeDelta >=
             this.getMinSize(thisAllocation) &&
-          this.getSizeInPixels(this.cachedRect, nextAllocation) + resizeDelta >=
+          this.getSizeInPixels(this.cachedRect, nextAllocation) - resizeDelta >=
             this.getMinSize(nextAllocation)
         ) {
           this.growAllocation(thisAllocation, resizeDelta);

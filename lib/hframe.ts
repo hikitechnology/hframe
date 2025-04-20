@@ -62,10 +62,6 @@ export class HFrame {
     return this.layers[index];
   }
 
-  setBaseLayout(layout: Layout) {
-    this.layers[0] = layout;
-  }
-
   private mainLoop() {
     this.update();
     this.render();
