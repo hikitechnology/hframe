@@ -48,6 +48,10 @@ export abstract class Element {
     return this._style;
   }
 
+  set style(newStyle: Partial<Style>) {
+    this._style.updateCustomStyle(newStyle);
+  }
+
   get minWidth(): number {
     return 0;
   }

@@ -92,6 +92,65 @@ export abstract class DirectionalLayout extends Layout {
     return this;
   }
 
+  insert(index: number, element: Element): typeof this {
+    this.elements.splice(index, 0, element);
+    this.allocations.splice(index, 0, {
+      type: "relative",
+      size: 1,
+      minElementSize: {
+        width: element.minWidth,
+        height: element.minHeight,
+      },
+      resizable: false,
+      setByUser: false,
+    });
+    return this;
+  }
+
+  insertSized(
+    index: number,
+    element: Element,
+    size: number,
+    resizable: boolean = false,
+    minSize?: number,
+  ): typeof this {
+    this.elements.splice(index, 0, element);
+    this.allocations.splice(index, 0, {
+      type: "pixel",
+      size,
+      minSize,
+      minElementSize: {
+        width: element.minWidth,
+        height: element.minHeight,
+      },
+      resizable,
+      setByUser: true,
+    });
+    return this;
+  }
+
+  insertRelative(
+    index: number,
+    element: Element,
+    size: number,
+    resizable: boolean = false,
+    minSize?: number,
+  ): typeof this {
+    this.elements.splice(index, 0, element);
+    this.allocations.splice(index, 0, {
+      type: "relative",
+      size,
+      minSize,
+      minElementSize: {
+        width: element.minWidth,
+        height: element.minHeight,
+      },
+      resizable,
+      setByUser: true,
+    });
+    return this;
+  }
+
   remove(element: Element): void {
     const index = this.elements.indexOf(element);
     this.elements.splice(index, 1);
@@ -100,6 +159,10 @@ export abstract class DirectionalLayout extends Layout {
 
   includes(element: Element): boolean {
     return this.elements.includes(element);
+  }
+
+  indexOf(element: Element): number {
+    return this.elements.indexOf(element);
   }
 
   getRect(element: Element): Rect {
@@ -253,7 +316,11 @@ export abstract class DirectionalLayout extends Layout {
       } else {
         let width = 0;
         for (const alloc of this.allocations) {
-          width += this.getSizeInPixels(this.cachedRect, alloc);
+          if (alloc.type === "pixel") {
+            width += this.getSizeInPixels(this.cachedRect, alloc);
+          } else {
+            width += this.getMinSize(alloc);
+          }
         }
         return width + 2 * this.style.padding;
       }
@@ -267,7 +334,11 @@ export abstract class DirectionalLayout extends Layout {
       if (this.isVertical) {
         let height = 0;
         for (const alloc of this.allocations) {
-          height += this.getSizeInPixels(this.cachedRect, alloc);
+          if (alloc.type === "pixel") {
+            height += this.getSizeInPixels(this.cachedRect, alloc);
+          } else {
+            height += this.getMinSize(alloc);
+          }
         }
         return height + 2 * this.style.padding;
       } else {

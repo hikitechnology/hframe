@@ -1,6 +1,7 @@
 import { DirectionalLayout } from "../ui/abstract/directional-layout";
 import { KeyboardInput } from "../ui/abstract/keyboard-input";
 import { Button } from "../ui/elements/basic/button";
+import { Text } from "../ui/elements/basic/text";
 import { Color } from "../utils/color";
 import { ThemeBuilder } from "./theme-builder";
 
@@ -14,6 +15,7 @@ export const Themes = {
     fontSize: 13,
     textCenteredV: false,
     textCenteredH: false,
+    textWrap: false,
     lineSpacing: 1.1,
     scrollbarBackground: Color.gray(200),
     scrollbarColor: Color.gray(50),
@@ -37,6 +39,9 @@ export const Themes = {
       padding: 4,
       fill: Color.gray(211),
       outline: Color.gray(144),
+    })
+    .setStyleFor(Text, {
+      textWrap: true,
     }),
   dark: ThemeBuilder.setIsDark(true)
     .setDefault({
@@ -48,6 +53,7 @@ export const Themes = {
       fontSize: 13,
       textCenteredV: false,
       textCenteredH: false,
+      textWrap: false,
       lineSpacing: 1.1,
       scrollbarBackground: Color.gray(0),
       scrollbarColor: Color.gray(100),
@@ -71,5 +77,8 @@ export const Themes = {
       padding: 4,
       fill: Color.gray(45),
       outline: Color.gray(80),
+    })
+    .setStyleFor(Text, {
+      textWrap: true,
     }),
 };

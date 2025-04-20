@@ -13,6 +13,7 @@ export class StyleManager implements Style {
   declare fontSize: number;
   declare textCenteredV: boolean;
   declare textCenteredH: boolean;
+  declare textWrap: boolean;
   declare lineSpacing: number;
   declare scrollbarColor: Color;
   declare scrollbarBackground: Color;

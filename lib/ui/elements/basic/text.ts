@@ -27,10 +27,12 @@ export class Text extends Element {
       let currentLine = words[0];
       for (let i = 1; i < words.length; i++) {
         const word = words[i];
-        const width = this.cachedPainter.measureText(
-          currentLine + " " + word,
-          this.style.fontSize,
-        );
+        const width = this.style.textWrap
+          ? this.cachedPainter.measureText(
+              currentLine + " " + word,
+              this.style.fontSize,
+            )
+          : 0;
         if (width < rect.width) {
           currentLine += " " + word;
         } else {
