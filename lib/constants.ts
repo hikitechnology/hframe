@@ -9,3 +9,7 @@ export const BUTTON_HOVERED_CHANGE = -15;
 export const SCROLLBAR_WIDTH = 4;
 export const SCROLLBAR_HOVERED_WIDTH = 9;
 export const SCROLLBAR_ROUNDING = 999;
+export const SLIDER_LINE_HEIGHT = 6;
+export const SLIDER_DOT_RADIUS = 8;
+export const SLIDER_LINE_ROUNDING = 999;
+export const SLIDER_DOT_ROUNDING = 999;

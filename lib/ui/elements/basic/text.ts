@@ -7,6 +7,7 @@ import { Element } from "../../abstract/element";
 export class Text extends Element {
   private cachedPainter: Painter | null = null;
   private lines: string[] = [];
+  private height: number = 0;
 
   constructor(
     public text: string = "",
@@ -39,10 +40,10 @@ export class Text extends Element {
       }
       this.lines.push(currentLine);
 
+      this.height =
+        this.style.fontSize * this.style.lineSpacing * this.lines.length;
       if (actions) {
-        actions.requestHeight(
-          this.style.fontSize * this.style.lineSpacing * this.lines.length,
-        );
+        actions.requestHeight(this.height);
       }
     }
   }
@@ -59,9 +60,11 @@ export class Text extends Element {
       yOffset = i * this.style.fontSize * this.style.lineSpacing;
       painter.text(
         this.lines[i],
-        rect.x,
-        rect.y + yOffset,
-        false,
+        this.style.textCentered ? rect.center.x : rect.x,
+        (this.style.textCentered
+          ? rect.center.y - this.height / 2 + this.style.fontSize / 2
+          : rect.y) + yOffset,
+        this.style.textCentered,
         this.style.fontSize,
       );
     }

@@ -252,13 +252,13 @@ export abstract class DirectionalLayout extends Layout {
             widest = width;
           }
         }
-        return widest;
+        return widest + 2 * this.style.padding;
       } else {
         let width = 0;
         for (const alloc of this.allocations) {
           width += this.getSizeInPixels(alloc);
         }
-        return width;
+        return width + 2 * this.style.padding;
       }
     } else {
       return 0;
@@ -272,7 +272,7 @@ export abstract class DirectionalLayout extends Layout {
         for (const alloc of this.allocations) {
           height += this.getSizeInPixels(alloc);
         }
-        return height;
+        return height + 2 * this.style.padding;
       } else {
         let tallest = 0;
         for (const alloc of this.allocations) {
@@ -281,7 +281,7 @@ export abstract class DirectionalLayout extends Layout {
             tallest = height;
           }
         }
-        return tallest;
+        return tallest + 2 * this.style.padding;
       }
     } else {
       return 0;

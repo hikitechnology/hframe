@@ -1,6 +1,8 @@
 import { HFrame } from "../lib/hframe";
 import { Themes } from "../lib/style/themes";
 import { Button } from "../lib/ui/elements/basic/button";
+import { Image } from "../lib/ui/elements/basic/image";
+import { Slider } from "../lib/ui/elements/basic/slider";
 import { Text } from "../lib/ui/elements/basic/text";
 import { Menu } from "../lib/ui/elements/compound/menu";
 import { Freeform } from "../lib/ui/layout/freeform";
@@ -8,6 +10,7 @@ import { Horizontal } from "../lib/ui/layout/horizontal";
 import { Vertical } from "../lib/ui/layout/vertical";
 import { VerticalScroll } from "../lib/ui/layout/vertical-scroll";
 import { Color } from "../lib/utils/color";
+import { URIImageSource } from "../lib/utils/image/uri-image-source";
 
 const canvas = document.getElementById("app") as HTMLCanvasElement;
 const hframe = new HFrame(canvas);
@@ -42,15 +45,17 @@ topHalf
   .addSized(topRight, 200, true, 100);
 
 topLeft.style.padding = 4;
-topLeft.add(
-  new Button("text", () => {
-    if (hframe.getCurrentTheme().isDark) {
-      hframe.setTheme(Themes.light);
-    } else {
-      hframe.setTheme(Themes.dark);
-    }
-  }),
-);
+topLeft
+  .add(
+    new Button("text", () => {
+      if (hframe.getCurrentTheme().isDark) {
+        hframe.setTheme(Themes.light);
+      } else {
+        hframe.setTheme(Themes.dark);
+      }
+    }),
+  )
+  .gap(4);
 
 const text = new Text(
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut pretium, nunc sagittis facilisis auctor, metus tortor interdum augue, id rhoncus nunc nibh ut magna. Donec et varius elit, non luctus erat. Aliquam sit amet vehicula risus, et ornare lectus. Mauris sed mi eu mi blandit varius. Nullam non pretium lorem, quis mattis ante. Duis posuere sodales euismod. Quisque eget nisl imperdiet, aliquam sapien nec, rutrum magna. Aliquam erat volutpat. In suscipit non velit sed condimentum. Sed in erat pellentesque, sodales nisi vel, tristique tortor.",
@@ -63,7 +68,7 @@ const button = new Button("text", () => {
     hframe.setTheme(Themes.dark);
   }
 });
-topLeft.add(button);
+topLeft.gap(4).add(button);
 
 const freeform = new Freeform();
 freeform.allowPassthrough = true;
@@ -83,3 +88,31 @@ editButton.onClick = () => {
   const buttonPos = menuBar.getRect(editButton).bottomLeft;
   menu.openAt(buttonPos.x, buttonPos.y);
 };
+
+const image = new URIImageSource(
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTc9APxkj0xClmrU3PpMZglHQkx446nQPG6lA&s",
+);
+topCenter.add(new Image(image));
+
+const cslider = new Horizontal();
+cslider.style.outline = Color.TRANSPARENT;
+cslider.style.fill = Color.TRANSPARENT;
+const label = new Text();
+cslider
+  .add(
+    new Slider(-10, 10, 0, 1, (value) => {
+      label.text = value.toString();
+    }),
+  )
+  .addSized(label, 20)
+  .gap(6);
+topRight.addSized(cslider, 20);
+topRight.style.padding = 4;
+topRight.add(new Text("test"));
+
+label.style.textCentered = true;
+
+// topRight.style.padding = 4;
+// topRight.add(new Slider());
+// topRight.gap(4);
+// topRight.add(new Button("asdf"));
