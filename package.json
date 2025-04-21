@@ -6,15 +6,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/hframe.umd.cjs",
   "module": "./dist/hframe.js",
-  "types": "./dist/hframe.d.ts",
-  "exports": {
-    ".": {
-      "import": "./dist/hframe.js",
-      "require": "./dist/hframe.umd.cjs"
-    }
-  },
+  "types": "./dist/main.d.ts",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",

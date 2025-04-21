@@ -13,5 +13,5 @@ export default defineConfig({
       fileName: "hframe",
     },
   },
-  plugins: [dts({ rollupTypes: true, include: ["lib"] })],
+  plugins: [dts({ include: ["lib"] })],
 });
