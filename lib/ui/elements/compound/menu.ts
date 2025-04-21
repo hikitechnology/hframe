@@ -1,3 +1,4 @@
+import { MENU_MIN_WIDTH } from "../../../constants";
 import { Context } from "../../../context";
 import { Painter } from "../../../render/painter";
 import { Theme } from "../../../style/theme";
@@ -14,40 +15,45 @@ export class Menu extends Element {
   private justClosed: boolean = false;
   private prevPos: Pos2D | null = null;
   private innerLayout = new Vertical();
+  private prevContents: Button[] = [];
+  private currentTheme: Theme | null = null;
 
-  constructor(
-    private layer: Freeform,
-    buttons: Button[],
-  ) {
+  constructor(private layer: Freeform) {
     super();
     layer.add(this, {
       width: 0,
       height: 0,
     });
-    for (const button of buttons) {
-      this.innerLayout.add(button);
+    this.innerLayout.style.fill = Color.TRANSPARENT;
+    this.innerLayout.style.outline = Color.TRANSPARENT;
+  }
+
+  setContents(buttons: Button[]) {
+    if (buttons === this.prevContents) {
+      return;
     }
+    this.innerLayout.clear();
+    this.innerLayout.add(...buttons);
     this.innerLayout.styleChildren({
       outline: Color.TRANSPARENT,
       rounding: 0,
       textCenteredH: false,
     });
+    if (this.currentTheme) {
+      this.innerLayout.updateTheme(this.currentTheme);
+    }
   }
 
-  openAt(x: number, y: number) {
-    if (
-      this.justClosed &&
-      this.prevPos &&
-      this.prevPos.equals(new Pos2D(x, y))
-    ) {
+  openAt(pos: Pos2D) {
+    if (this.justClosed && this.prevPos && this.prevPos.equals(pos)) {
       return;
     }
     this.open = true;
     this.layer.set(this, {
       anchorX: "left",
       anchorY: "top",
-      xOffset: x,
-      yOffset: y,
+      xOffset: pos.x,
+      yOffset: pos.y,
       width: null,
       height: null,
     });
@@ -81,12 +87,12 @@ export class Menu extends Element {
   }
 
   updateTheme(theme: Theme): void {
-    super.updateTheme(theme);
+    this.currentTheme = theme;
     this.innerLayout.updateTheme(theme);
   }
 
   get minWidth() {
-    return this.innerLayout.minWidth;
+    return Math.max(this.innerLayout.minWidth, MENU_MIN_WIDTH);
   }
 
   get minHeight() {

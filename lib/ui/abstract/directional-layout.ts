@@ -35,18 +35,20 @@ export abstract class DirectionalLayout extends Layout {
     return this;
   }
 
-  add(element: Element): typeof this {
-    this.elements.push(element);
-    this.allocations.push({
-      type: "relative",
-      size: 1,
-      minElementSize: {
-        width: element.minWidth,
-        height: element.minHeight,
-      },
-      resizable: false,
-      setByUser: false,
-    });
+  add(...elements: Element[]): typeof this {
+    for (const element of elements) {
+      this.elements.push(element);
+      this.allocations.push({
+        type: "relative",
+        size: 1,
+        minElementSize: {
+          width: element.minWidth,
+          height: element.minHeight,
+        },
+        resizable: false,
+        setByUser: false,
+      });
+    }
     return this;
   }
 
@@ -159,6 +161,11 @@ export abstract class DirectionalLayout extends Layout {
 
   includes(element: Element): boolean {
     return this.elements.includes(element);
+  }
+
+  clear() {
+    this.elements = [];
+    this.allocations = [];
   }
 
   indexOf(element: Element): number {
