@@ -1,3 +1,4 @@
+import { FALLBACK_THEME } from "../../constants";
 import { Style } from "../../style/style";
 import { StyleManager } from "../../style/style-manager";
 import { Theme } from "../../style/theme";
@@ -6,8 +7,10 @@ import { Element } from "./element";
 
 export abstract class Layout extends Element {
   protected elements: Element[] = [];
+  protected theme: Theme = FALLBACK_THEME;
 
   updateTheme(theme: Theme): void {
+    this.theme = theme;
     super.updateTheme(theme);
     for (const element of this.elements) {
       element.updateTheme(theme);

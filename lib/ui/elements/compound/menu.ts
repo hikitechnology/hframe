@@ -1,7 +1,6 @@
 import { MENU_MIN_WIDTH } from "../../../constants";
 import { Context } from "../../../context";
 import { Painter } from "../../../render/painter";
-import { Theme } from "../../../style/theme";
 import { Color } from "../../../utils/color";
 import { Pos2D } from "../../../utils/shapes/pos2d";
 import { Rect } from "../../../utils/shapes/rect";
@@ -16,7 +15,6 @@ export class Menu extends Element {
   private prevPos: Pos2D | null = null;
   private innerLayout = new Vertical();
   private prevContents: Button[] = [];
-  private currentTheme: Theme | null = null;
 
   constructor(private layer: Freeform) {
     super();
@@ -39,9 +37,6 @@ export class Menu extends Element {
       rounding: 0,
       textCenteredH: false,
     });
-    if (this.currentTheme) {
-      this.innerLayout.updateTheme(this.currentTheme);
-    }
   }
 
   openAt(pos: Pos2D) {

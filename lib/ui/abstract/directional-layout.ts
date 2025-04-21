@@ -48,6 +48,7 @@ export abstract class DirectionalLayout extends Layout {
         resizable: false,
         setByUser: false,
       });
+      element.updateTheme(this.theme);
     }
     return this;
   }

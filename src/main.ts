@@ -1,4 +1,5 @@
 import { HFrame } from "../lib/hframe";
+import { Themes } from "../lib/style/themes";
 import { Button } from "../lib/ui/elements/basic/button";
 import { Text } from "../lib/ui/elements/basic/text";
 import { Menu } from "../lib/ui/elements/compound/menu";
@@ -43,6 +44,17 @@ const editButtons = [
   new Button("Paste"),
 ];
 
+const viewButtons = [
+  new Button("Toggle theme", () => {
+    if (hframe.getCurrentTheme().isDark) {
+      hframe.setTheme(Themes.light);
+    } else {
+      hframe.setTheme(Themes.dark);
+    }
+    menu.close();
+  }),
+];
+
 const fileButton = new Button("File", () => {
   menu.setContents(fileButtons);
   menu.openAt(menuBar.getRect(fileButton).bottomLeft);
@@ -51,7 +63,10 @@ const editButton = new Button("Edit", () => {
   menu.setContents(editButtons);
   menu.openAt(menuBar.getRect(editButton).bottomLeft);
 });
-const viewButton = new Button("View", () => {});
+const viewButton = new Button("View", () => {
+  menu.setContents(viewButtons);
+  menu.openAt(menuBar.getRect(viewButton).bottomLeft);
+});
 menuBar.add(fileButton, editButton, viewButton);
 menuBar.styleChildren({
   outline: Color.TRANSPARENT,
