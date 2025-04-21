@@ -127,10 +127,14 @@ export abstract class ResizeLayout extends DirectionalLayout {
         const prevAllocation =
           this.allocations[this.allocations.indexOf(thisAllocation) - 1];
         if (
-          this.getSizeInPixels(this.cachedRect, thisAllocation) - resizeDelta >=
-            this.getMinSize(thisAllocation) &&
-          this.getSizeInPixels(this.cachedRect, prevAllocation) + resizeDelta >=
-            this.getMinSize(prevAllocation)
+          (this.getSizeInPixels(this.cachedRect, thisAllocation) -
+            resizeDelta >=
+            this.getMinSize(thisAllocation) ||
+            Math.sign(resizeDelta) === -1) &&
+          (this.getSizeInPixels(this.cachedRect, prevAllocation) +
+            resizeDelta >=
+            this.getMinSize(prevAllocation) ||
+            Math.sign(resizeDelta) === 1)
         ) {
           this.growAllocation(prevAllocation, resizeDelta);
           this.growAllocation(thisAllocation, -resizeDelta);
@@ -139,10 +143,14 @@ export abstract class ResizeLayout extends DirectionalLayout {
         const nextAllocation =
           this.allocations[this.allocations.indexOf(thisAllocation) + 1];
         if (
-          this.getSizeInPixels(this.cachedRect, thisAllocation) + resizeDelta >=
-            this.getMinSize(thisAllocation) &&
-          this.getSizeInPixels(this.cachedRect, nextAllocation) - resizeDelta >=
-            this.getMinSize(nextAllocation)
+          (this.getSizeInPixels(this.cachedRect, thisAllocation) +
+            resizeDelta >=
+            this.getMinSize(thisAllocation) ||
+            Math.sign(resizeDelta) === 1) &&
+          (this.getSizeInPixels(this.cachedRect, nextAllocation) -
+            resizeDelta >=
+            this.getMinSize(nextAllocation) ||
+            Math.sign(resizeDelta) === -1)
         ) {
           this.growAllocation(thisAllocation, resizeDelta);
           this.growAllocation(nextAllocation, -resizeDelta);
