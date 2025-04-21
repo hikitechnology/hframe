@@ -1,6 +1,7 @@
 import { MENU_MIN_WIDTH } from "../../../constants";
 import { Context } from "../../../context";
 import { Painter } from "../../../render/painter";
+import { Theme } from "../../../style/theme";
 import { Color } from "../../../utils/color";
 import { Pos2D } from "../../../utils/shapes/pos2d";
 import { Rect } from "../../../utils/shapes/rect";
@@ -82,7 +83,6 @@ export class Menu extends Element {
   }
 
   updateTheme(theme: Theme): void {
-    this.currentTheme = theme;
     this.innerLayout.updateTheme(theme);
   }
 
