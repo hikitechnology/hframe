@@ -17,6 +17,8 @@ export class Context {
   private _heldKeys: string[] = [];
   private _justPressedKeys: string[] = [];
   private _justReleasedKeys: string[] = [];
+  private _isDraggingFile: boolean = false;
+  private _droppedFiles: FileList | null = null;
 
   private hiddenTextarea: HTMLTextAreaElement;
 
@@ -82,6 +84,27 @@ export class Context {
       this._heldKeys.splice(this._heldKeys.indexOf(event.key), 1);
       this._justReleasedKeys.push(event.key);
     });
+
+    // file drag detection
+    canvas.addEventListener("dragover", (event) => {
+      event.preventDefault();
+      this._mousePos.x = event.x;
+      this._mousePos.y = event.y;
+      if (event.dataTransfer?.types.includes("Files")) {
+        this._isDraggingFile = true;
+      }
+    });
+    canvas.addEventListener("dragleave", (event) => {
+      event.preventDefault();
+      this._isDraggingFile = false;
+    });
+    canvas.addEventListener("drop", (event) => {
+      event.preventDefault();
+      this._isDraggingFile = false;
+      if (event.dataTransfer) {
+        this._droppedFiles = event.dataTransfer.files;
+      }
+    });
   }
 
   refresh() {
@@ -98,6 +121,7 @@ export class Context {
     this._scrollDelta = 0;
     this._justPressedKeys = [];
     this._justReleasedKeys = [];
+    this._droppedFiles = null;
   }
 
   haltInteraction() {
@@ -212,5 +236,13 @@ export class Context {
 
   get interactionPaused(): boolean {
     return this._interactionPaused;
+  }
+
+  get isDraggingFile(): boolean {
+    return this._isDraggingFile;
+  }
+
+  get droppedFiles(): FileList | null {
+    return this._droppedFiles;
   }
 }

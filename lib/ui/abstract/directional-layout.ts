@@ -214,6 +214,8 @@ export abstract class DirectionalLayout extends Layout {
 
     if (!pausedBefore) {
       context.resumeInteraction();
+    } else {
+      context.haltInteraction();
     }
   }
 

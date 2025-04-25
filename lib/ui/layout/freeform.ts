@@ -18,8 +18,8 @@ type Allocation = {
 };
 
 export class Freeform extends Layout {
-  private allocations: Allocation[] = [];
-  private cachedRect: Rect | null = null;
+  protected allocations: Allocation[] = [];
+  protected cachedRect: Rect | null = null;
 
   add(
     element: Element,
@@ -77,12 +77,24 @@ export class Freeform extends Layout {
   }
 
   protected update(rect: Rect, context: Context): void {
+    const pausedBefore = context.interactionPaused;
+
+    if (!rect.contains(context.mousePos)) {
+      context.haltInteraction();
+    }
+
     this.cachedRect = rect;
     this.updateMinSizes();
 
     for (const element of this.elements) {
       const allocRect = this.getAllocRect(rect, element);
       element.updateElement(allocRect, context);
+    }
+
+    if (!pausedBefore) {
+      context.resumeInteraction();
+    } else {
+      context.haltInteraction();
     }
   }
 
@@ -93,12 +105,12 @@ export class Freeform extends Layout {
     }
   }
 
-  private getAllocation(element: Element) {
+  protected getAllocation(element: Element) {
     const index = this.elements.indexOf(element);
     return this.allocations[index];
   }
 
-  private getAllocRect(baseRect: Rect, element: Element): Rect {
+  protected getAllocRect(baseRect: Rect, element: Element): Rect {
     const allocation = this.getAllocation(element);
 
     let x;
@@ -131,21 +143,21 @@ export class Freeform extends Layout {
     );
   }
 
-  private getAllocWidth(allocation: Allocation): number {
+  protected getAllocWidth(allocation: Allocation): number {
     if (allocation.width === null) {
       return allocation.minElementSize.width;
     }
     return allocation.width;
   }
 
-  private getAllocHeight(allocation: Allocation): number {
+  protected getAllocHeight(allocation: Allocation): number {
     if (allocation.height === null) {
       return allocation.minElementSize.height;
     }
     return allocation.height;
   }
 
-  private updateMinSizes() {
+  protected updateMinSizes() {
     for (let i = 0; i < this.elements.length; i++) {
       const element = this.elements[i];
       const allocation = this.allocations[i];

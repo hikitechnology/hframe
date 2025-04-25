@@ -10,15 +10,15 @@ import { DirectionalLayout } from "../abstract/directional-layout";
 import { Element } from "../abstract/element";
 
 export class VerticalScroll extends DirectionalLayout {
-  private scrollOffset: number = 0;
-  private scrollbarHovered: boolean = false;
-  private draggingScrollbar: boolean = false;
+  protected scrollOffset: number = 0;
+  protected scrollbarHovered: boolean = false;
+  protected draggingScrollbar: boolean = false;
 
   constructor() {
     super(true);
   }
 
-  update(rect: Rect, context: Context): void {
+  protected update(rect: Rect, context: Context): void {
     if (rect.contains(context.mousePos)) {
       this.scrollOffset += context.scrollDelta;
     }
@@ -27,12 +27,12 @@ export class VerticalScroll extends DirectionalLayout {
     super.update(this.getContentRect(rect), context);
   }
 
-  render(rect: Rect, painter: Painter): void {
+  protected render(rect: Rect, painter: Painter): void {
     super.render(this.getContentRect(rect), painter);
     this.renderScrollbar(rect, painter);
   }
 
-  private updateScrollbar(rect: Rect, context: Context) {
+  protected updateScrollbar(rect: Rect, context: Context) {
     const scrollbarCollider = Rect.from(
       rect.x + rect.width - SCROLLBAR_HOVERED_WIDTH,
       rect.y,
@@ -60,7 +60,7 @@ export class VerticalScroll extends DirectionalLayout {
     }
   }
 
-  private renderScrollbar(rect: Rect, painter: Painter) {
+  protected renderScrollbar(rect: Rect, painter: Painter) {
     if (rect.height < this.contentHeight) {
       const scrollbarWidth =
         this.scrollbarHovered || this.draggingScrollbar
@@ -102,14 +102,14 @@ export class VerticalScroll extends DirectionalLayout {
     return rect;
   }
 
-  private constrainScroll(rect: Rect) {
+  protected constrainScroll(rect: Rect) {
     this.scrollOffset = Math.max(
       Math.min(this.scrollOffset, this.contentHeight - rect.height),
       0,
     );
   }
 
-  private getContentRect(baseRect: Rect) {
+  protected getContentRect(baseRect: Rect) {
     if (baseRect.height < this.contentHeight) {
       const newRect = baseRect.clone();
       newRect.width -= SCROLLBAR_WIDTH;
@@ -119,7 +119,7 @@ export class VerticalScroll extends DirectionalLayout {
     }
   }
 
-  private get contentHeight(): number {
+  protected get contentHeight(): number {
     if (this.cachedRect) {
       let maxY = 0;
       for (const element of this.elements) {
