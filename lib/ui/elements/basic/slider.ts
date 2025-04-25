@@ -72,7 +72,6 @@ export class Slider extends Element {
       this.dragging = false;
     }
     if (this.dragging) {
-      context.resumeInteraction();
       const percentAcross = (context.mousePos.x - dragZone.x) / dragZone.width;
       this.value = MathHelpers.strip(
         MathHelpers.roundToNearest(

@@ -77,24 +77,12 @@ export class Freeform extends Layout {
   }
 
   protected update(rect: Rect, context: Context): void {
-    const pausedBefore = context.interactionPaused;
-
-    if (!rect.contains(context.mousePos)) {
-      context.haltInteraction();
-    }
-
     this.cachedRect = rect;
     this.updateMinSizes();
 
     for (const element of this.elements) {
       const allocRect = this.getAllocRect(rect, element);
       element.updateElement(allocRect, context);
-    }
-
-    if (!pausedBefore) {
-      context.resumeInteraction();
-    } else {
-      context.haltInteraction();
     }
   }
 

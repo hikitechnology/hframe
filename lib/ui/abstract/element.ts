@@ -18,10 +18,17 @@ export abstract class Element {
   }
 
   updateElement(rect: Rect, context: Context, actions?: Actions): void {
+    const mouseInBounds = rect.contains(context.mousePos);
+    if (!mouseInBounds) {
+      context.pauseInteraction();
+    }
+
     this.update(rect, context, actions);
 
-    if (!this.allowPassthrough && rect.contains(context.mousePos)) {
-      context.haltInteraction();
+    if (mouseInBounds && this.allowPassthrough === false) {
+      context.pauseInteraction();
+    } else {
+      context.resumeInteraction();
     }
   }
 

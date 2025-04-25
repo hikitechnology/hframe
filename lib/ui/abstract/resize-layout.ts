@@ -156,8 +156,6 @@ export abstract class ResizeLayout extends DirectionalLayout {
           this.growAllocation(nextAllocation, -resizeDelta);
         }
       }
-
-      context.haltInteraction();
     }
   }
 

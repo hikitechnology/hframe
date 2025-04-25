@@ -3,8 +3,8 @@ import { Pos2D } from "./utils/shapes/pos2d";
 import { Vec2D } from "./utils/shapes/vec2d";
 
 export class Context {
-  private _interactionPaused = false;
-
+  private interactionHolds: number = 0;
+  // private interactionPaused: boolean = false;
   private _mousePos: Pos2D = new Pos2D(Number.NaN, Number.NaN);
   private _mouseDelta: Vec2D = new Vec2D(0, 0);
   private _isMouseDown: boolean = false;
@@ -107,9 +107,17 @@ export class Context {
     });
   }
 
-  refresh() {
-    this.resumeInteraction();
+  pauseInteraction(): void {
+    this.interactionHolds++;
+  }
 
+  resumeInteraction(): void {
+    this.interactionHolds = Math.max(this.interactionHolds - 1, 0);
+  }
+
+  refresh() {
+    console.log(this.interactionHolds);
+    this.interactionHolds = 0;
     this.canvas.style.cursor = this._cursor;
     this._cursor = "default";
 
@@ -122,14 +130,6 @@ export class Context {
     this._justPressedKeys = [];
     this._justReleasedKeys = [];
     this._droppedFiles = null;
-  }
-
-  haltInteraction() {
-    this._interactionPaused = true;
-  }
-
-  resumeInteraction() {
-    this._interactionPaused = false;
   }
 
   collectTextInput(
@@ -180,7 +180,7 @@ export class Context {
   }
 
   get mousePos(): Pos2D {
-    if (this._interactionPaused) {
+    if (this.interactionHolds > 0) {
       return new Pos2D(NaN, NaN);
     }
     return this._mousePos;
@@ -232,10 +232,6 @@ export class Context {
 
   get justReleasedKeys(): string[] {
     return this._justReleasedKeys;
-  }
-
-  get interactionPaused(): boolean {
-    return this._interactionPaused;
   }
 
   get isDraggingFile(): boolean {

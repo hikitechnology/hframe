@@ -68,7 +68,6 @@ export class Menu extends Element {
   protected update(rect: Rect, context: Context): void {
     this.justClosed = false;
     this.innerLayout.updateElement(rect, context);
-    context.resumeInteraction();
     if (
       this.open &&
       !rect.contains(context.mousePos) &&

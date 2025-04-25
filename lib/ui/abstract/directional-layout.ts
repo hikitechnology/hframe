@@ -181,12 +181,6 @@ export abstract class DirectionalLayout extends Layout {
   }
 
   protected update(rect: Rect, context: Context): void {
-    const pausedBefore = context.interactionPaused;
-
-    if (!rect.contains(context.mousePos)) {
-      context.haltInteraction();
-    }
-
     this.cachedRect = rect;
     this.updateMinSizes();
 
@@ -210,12 +204,6 @@ export abstract class DirectionalLayout extends Layout {
         },
       };
       element.updateElement(elementRect, context, actions);
-    }
-
-    if (!pausedBefore) {
-      context.resumeInteraction();
-    } else {
-      context.haltInteraction();
     }
   }
 

@@ -48,7 +48,6 @@ export class TextInput extends KeyboardInput {
       this.cachedPainter &&
       !context.justDoubleClicked
     ) {
-      context.resumeInteraction();
       const caretPos = this.getCaretPositionFromMouse(
         context.mousePos.x,
         rect,
