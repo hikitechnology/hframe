@@ -20,7 +20,10 @@ export class VerticalScroll extends DirectionalLayout {
   }
 
   protected update(rect: Rect, context: Context, actions?: Actions): void {
-    if (rect.contains(context.mousePos)) {
+    if (
+      rect.contains(context.mousePos) &&
+      !context.heldKeys.includes("Control")
+    ) {
       if (this.startFromBottom) {
         this.scrollOffset -= context.scrollDelta;
       } else {
