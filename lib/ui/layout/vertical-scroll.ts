@@ -15,14 +15,17 @@ export class VerticalScroll extends DirectionalLayout {
   protected scrollbarHovered: boolean = false;
   protected draggingScrollbar: boolean = false;
 
-  constructor(protected startFromBottom: boolean = false) {
+  constructor(
+    protected startFromBottom: boolean = false,
+    protected dontScrollWhenHeld: string[] = [],
+  ) {
     super(true);
   }
 
   protected update(rect: Rect, context: Context, actions?: Actions): void {
     if (
       rect.contains(context.mousePos) &&
-      !context.heldKeys.includes("Control")
+      !context.heldKeys.some((key) => this.dontScrollWhenHeld.includes(key))
     ) {
       if (this.startFromBottom) {
         this.scrollOffset -= context.scrollDelta;
