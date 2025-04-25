@@ -51,10 +51,10 @@ export class VerticalScroll extends DirectionalLayout {
     }
 
     if (this.draggingScrollbar) {
+      const mousePos = context.peekAtRealMousePos();
       const scrollBarHeightPercent = rect.height / this.contentHeight;
       const scrollPercent =
-        (context.mousePos.y - rect.y) / rect.height -
-        scrollBarHeightPercent / 2;
+        (mousePos.y - rect.y) / rect.height - scrollBarHeightPercent / 2;
       this.scrollOffset = this.contentHeight * scrollPercent;
     }
   }

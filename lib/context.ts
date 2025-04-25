@@ -114,6 +114,10 @@ export class Context {
     this.interactionHolds = Math.max(this.interactionHolds - 1, 0);
   }
 
+  peekAtRealMousePos(): Pos2D {
+    return this._mousePos;
+  }
+
   refresh() {
     this.interactionHolds = 0;
     this.canvas.style.cursor = this._cursor;
