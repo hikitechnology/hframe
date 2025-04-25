@@ -26,6 +26,16 @@ export class ThemeBuilder extends Theme {
     super();
   }
 
+  static extend(theme: Theme): ThemeBuilder {
+    const builder = new ThemeBuilder();
+    const defaultStyle = Theme.getDefaultStyle(theme);
+    const styles = Theme.getStyles(theme);
+    builder.defaultStyle = { ...defaultStyle };
+    builder.styles = { ...styles };
+    builder._isDark = theme.isDark;
+    return builder;
+  }
+
   static setDefault(style: Style): ThemeBuilder {
     const builder = new ThemeBuilder();
     builder.setDefault(style);
@@ -56,6 +66,10 @@ export class ThemeBuilder extends Theme {
 
   setIsDark(isDark: boolean = true): this {
     this._isDark = isDark;
+    return this;
+  }
+
+  lock(): Theme {
     return this;
   }
 

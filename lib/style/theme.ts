@@ -5,6 +5,14 @@ export abstract class Theme {
   protected styles: Record<string, Partial<Style>> = {};
   protected abstract defaultStyle: Style;
 
+  protected static getStyles(theme: Theme) {
+    return theme.styles;
+  }
+
+  protected static getDefaultStyle(theme: Theme) {
+    return theme.defaultStyle;
+  }
+
   getStyleFor(element: Element): Style {
     // recursive lookup for most specific styling
     let currentConstructor = element.constructor;

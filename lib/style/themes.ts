@@ -47,7 +47,8 @@ export const Themes = {
     .setStyleFor(Menu, {
       fill: Color.gray(211),
       outline: Color.gray(144),
-    }),
+    })
+    .lock(),
   dark: ThemeBuilder.setIsDark(true)
     .setDefault({
       padding: 0,
@@ -89,5 +90,6 @@ export const Themes = {
     .setStyleFor(Menu, {
       fill: Color.gray(45),
       outline: Color.gray(80),
-    }),
+    })
+    .lock(),
 };

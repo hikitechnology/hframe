@@ -11,9 +11,11 @@ export abstract class Element {
   private _style: StyleManager = new StyleManager(
     FALLBACK_THEME.getStyleFor(this),
   );
+  protected currentTheme: Theme = FALLBACK_THEME;
   allowPassthrough: boolean = false;
 
   updateTheme(theme: Theme) {
+    this.currentTheme = theme;
     this._style.updateBaseStyle(theme.getStyleFor(this));
   }
 
