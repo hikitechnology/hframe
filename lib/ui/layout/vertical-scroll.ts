@@ -6,6 +6,7 @@ import {
 import { Context } from "../../context";
 import { Painter } from "../../render/painter";
 import { Rect } from "../../utils/shapes/rect";
+import { Actions } from "../abstract/actions";
 import { DirectionalLayout } from "../abstract/directional-layout";
 import { Element } from "../abstract/element";
 
@@ -14,13 +15,20 @@ export class VerticalScroll extends DirectionalLayout {
   protected scrollbarHovered: boolean = false;
   protected draggingScrollbar: boolean = false;
 
-  constructor() {
+  constructor(protected startFromBottom: boolean = false) {
     super(true);
   }
 
-  protected update(rect: Rect, context: Context): void {
+  protected update(rect: Rect, context: Context, actions?: Actions): void {
     if (rect.contains(context.mousePos)) {
-      this.scrollOffset += context.scrollDelta;
+      if (this.startFromBottom) {
+        this.scrollOffset -= context.scrollDelta;
+      } else {
+        this.scrollOffset += context.scrollDelta;
+      }
+    }
+    if (actions) {
+      actions.requestHeight(this.contentHeight);
     }
     this.updateScrollbar(rect, context);
     this.constrainScroll(rect);
@@ -74,8 +82,17 @@ export class VerticalScroll extends DirectionalLayout {
       );
 
       const scrollbarHeight = (rect.height / this.contentHeight) * rect.height;
-      const scrollbarY =
-        (rect.height / this.contentHeight) * this.scrollOffset + rect.y;
+      let scrollbarY;
+      if (this.startFromBottom) {
+        scrollbarY =
+          (rect.height / this.contentHeight) * -this.scrollOffset +
+          rect.y +
+          rect.height -
+          scrollbarHeight;
+      } else {
+        scrollbarY =
+          (rect.height / this.contentHeight) * this.scrollOffset + rect.y;
+      }
 
       const scrollbar = Rect.from(
         rect.x + rect.width - scrollbarWidth,
@@ -97,7 +114,11 @@ export class VerticalScroll extends DirectionalLayout {
 
   protected getAllocRect(baseRect: Rect, element: Element): Rect {
     const rect = super.getAllocRect(baseRect, element);
-    rect.y -= this.scrollOffset;
+    if (this.startFromBottom) {
+      rect.y -= this.contentHeight - baseRect.height - this.scrollOffset;
+    } else {
+      rect.y -= this.scrollOffset;
+    }
     return rect;
   }
 
