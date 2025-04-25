@@ -4,7 +4,6 @@ import { Vec2D } from "./utils/shapes/vec2d";
 
 export class Context {
   private interactionHolds: number = 0;
-  // private interactionPaused: boolean = false;
   private _mousePos: Pos2D = new Pos2D(Number.NaN, Number.NaN);
   private _mouseDelta: Vec2D = new Vec2D(0, 0);
   private _isMouseDown: boolean = false;
@@ -116,7 +115,6 @@ export class Context {
   }
 
   refresh() {
-    console.log(this.interactionHolds);
     this.interactionHolds = 0;
     this.canvas.style.cursor = this._cursor;
     this._cursor = "default";
