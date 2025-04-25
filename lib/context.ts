@@ -61,9 +61,16 @@ export class Context {
       this._mousePos.x = event.x;
       this._mousePos.y = event.y;
     });
-    document.addEventListener("wheel", (event) => {
-      this._scrollDelta += event.deltaY;
-    });
+    document.addEventListener(
+      "wheel",
+      (event) => {
+        if (event.ctrlKey) {
+          event.preventDefault();
+        }
+        this._scrollDelta += event.deltaY;
+      },
+      { passive: false },
+    );
 
     // prevent browser keypress handling when canvas focused
     canvas.addEventListener("keydown", (event) => {
