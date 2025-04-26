@@ -89,6 +89,9 @@ export class Context {
       this._heldKeys.splice(this._heldKeys.indexOf(event.key), 1);
       this._justReleasedKeys.push(event.key);
     });
+    document.addEventListener("blur", () => {
+      this._heldKeys = [];
+    });
 
     // file drag detection
     canvas.addEventListener("dragover", (event) => {
