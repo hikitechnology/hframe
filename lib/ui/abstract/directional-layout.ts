@@ -1,4 +1,5 @@
 import { Context } from "../../context";
+import { Color } from "../../main";
 import { Painter } from "../../render/painter";
 import { Rect } from "../../utils/shapes/rect";
 import { Gap } from "../elements/basic/gap";
@@ -22,8 +23,18 @@ export abstract class DirectionalLayout extends Layout {
   protected allocations: Allocation[] = [];
   protected cachedRect: Rect | null = null;
 
-  constructor(protected isVertical: boolean) {
+  constructor(
+    protected isVertical: boolean,
+    hasOutline: boolean,
+    hasFill: boolean,
+  ) {
     super();
+    if (!hasOutline) {
+      this.style.outline = Color.TRANSPARENT;
+    }
+    if (!hasFill) {
+      this.style.fill = Color.TRANSPARENT;
+    }
   }
 
   gap(size?: number): typeof this {

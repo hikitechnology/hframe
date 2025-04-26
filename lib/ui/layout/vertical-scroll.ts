@@ -19,7 +19,7 @@ export class VerticalScroll extends DirectionalLayout {
     protected startFromBottom: boolean = false,
     protected dontScrollWhenHeld: string[] = [],
   ) {
-    super(true);
+    super(true, true, true);
   }
 
   protected update(rect: Rect, context: Context, actions?: Actions): void {
