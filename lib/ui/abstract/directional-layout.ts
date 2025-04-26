@@ -198,14 +198,14 @@ export abstract class DirectionalLayout extends Layout {
           const allocation = this.getAllocation(element);
           if (!this.isVertical && !allocation.setByUser) {
             allocation.type = "pixel";
-            allocation.size = Math.min(width, rect.width);
+            allocation.size = width;
           }
         },
         requestHeight: (height) => {
           const allocation = this.getAllocation(element);
           if (this.isVertical && !allocation.setByUser) {
             allocation.type = "pixel";
-            allocation.size = Math.min(height, rect.height);
+            allocation.size = height;
           }
         },
       };
