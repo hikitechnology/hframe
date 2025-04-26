@@ -64,9 +64,7 @@ export class Context {
     document.addEventListener(
       "wheel",
       (event) => {
-        if (event.ctrlKey) {
-          event.preventDefault();
-        }
+        event.preventDefault();
         this._scrollDelta.x += event.deltaX;
         this._scrollDelta.y += event.deltaY;
       },
