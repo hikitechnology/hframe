@@ -81,7 +81,7 @@ export class VerticalScroll extends DirectionalLayout {
   }
 
   protected renderScrollbar(rect: Rect, painter: Painter) {
-    if (rect.height < this.contentHeight) {
+    if (rect.height < this.contentHeight - 1) {
       const scrollbarWidth =
         this.scrollbarHovered || this.draggingScrollbar
           ? SCROLLBAR_HOVERED_WIDTH
@@ -143,7 +143,7 @@ export class VerticalScroll extends DirectionalLayout {
   }
 
   protected getContentRect(baseRect: Rect) {
-    if (baseRect.height < this.contentHeight) {
+    if (baseRect.height < this.contentHeight - 1) {
       const newRect = baseRect.clone();
       newRect.width -= SCROLLBAR_WIDTH;
       return newRect;
