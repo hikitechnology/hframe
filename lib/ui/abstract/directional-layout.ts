@@ -173,6 +173,12 @@ export abstract class DirectionalLayout extends Layout {
     return this.elements.indexOf(element);
   }
 
+  setSize(element: Element, newSize: number): void {
+    const allocation = this.getAllocation(element);
+    allocation.type = "pixel";
+    allocation.size = newSize;
+  }
+
   getRect(element: Element): Rect {
     if (!this.cachedRect) {
       return Rect.from(NaN, NaN, NaN, NaN);
@@ -298,6 +304,30 @@ export abstract class DirectionalLayout extends Layout {
         : allocation.minElementSize.width;
     }
     return allocation.minSize;
+  }
+
+  protected growAllocation(allocation: Allocation, adjustment: number) {
+    if (allocation.type === "pixel") {
+      allocation.size += adjustment;
+    } else {
+      if (this.cachedRect) {
+        const relatives = this.allocations.filter(
+          (alloc) => alloc.type === "relative",
+        );
+        if (relatives.length > 1) {
+          const totalRelative =
+            (this.isVertical ? this.cachedRect.height : this.cachedRect.width) -
+            this.sumPixelAllocations();
+          const totalRelativeSize = relatives.reduce(
+            (sum, alloc) => sum + alloc.size,
+            0,
+          );
+          const relativeAdjustment =
+            (adjustment / totalRelative) * totalRelativeSize;
+          allocation.size += relativeAdjustment;
+        }
+      }
+    }
   }
 
   get minWidth(): number {

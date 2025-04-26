@@ -159,28 +159,4 @@ export abstract class ResizeLayout extends DirectionalLayout {
       context.pauseInteraction();
     }
   }
-
-  protected growAllocation(allocation: Allocation, adjustment: number) {
-    if (allocation.type === "pixel") {
-      allocation.size += adjustment;
-    } else {
-      if (this.cachedRect) {
-        const relatives = this.allocations.filter(
-          (alloc) => alloc.type === "relative",
-        );
-        if (relatives.length > 1) {
-          const totalRelative =
-            (this.isVertical ? this.cachedRect.height : this.cachedRect.width) -
-            this.sumPixelAllocations();
-          const totalRelativeSize = relatives.reduce(
-            (sum, alloc) => sum + alloc.size,
-            0,
-          );
-          const relativeAdjustment =
-            (adjustment / totalRelative) * totalRelativeSize;
-          allocation.size += relativeAdjustment;
-        }
-      }
-    }
-  }
 }
