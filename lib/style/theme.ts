@@ -13,9 +13,10 @@ export abstract class Theme {
     return theme.defaultStyle;
   }
 
-  getStyleFor(element: Element): Style {
+  getStyleFor(element: Element | typeof Element): Style {
     // recursive lookup for most specific styling
-    let currentConstructor = element.constructor;
+    let currentConstructor =
+      element instanceof Element ? element.constructor : element;
     while (currentConstructor && currentConstructor.name) {
       const style = this.styles[currentConstructor.name];
       if (style) {
