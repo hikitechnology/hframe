@@ -24,7 +24,7 @@ export class Freeform extends Layout {
   add(
     element: Element,
     allocation: Partial<Omit<Allocation, "minElementSize">> = {},
-  ): void {
+  ): typeof this {
     const {
       anchorX = "left",
       anchorY = "top",
@@ -46,6 +46,8 @@ export class Freeform extends Layout {
         height: element.minHeight,
       },
     });
+    element.updateTheme(this.currentTheme);
+    return this;
   }
 
   set(

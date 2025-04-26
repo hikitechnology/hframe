@@ -71,6 +71,7 @@ export abstract class DirectionalLayout extends Layout {
       resizable,
       setByUser: true,
     });
+    element.updateTheme(this.currentTheme);
     return this;
   }
 
@@ -92,6 +93,7 @@ export abstract class DirectionalLayout extends Layout {
       resizable,
       setByUser: true,
     });
+    element.updateTheme(this.currentTheme);
     return this;
   }
 
@@ -107,6 +109,7 @@ export abstract class DirectionalLayout extends Layout {
       resizable: false,
       setByUser: false,
     });
+    element.updateTheme(this.currentTheme);
     return this;
   }
 
@@ -129,6 +132,7 @@ export abstract class DirectionalLayout extends Layout {
       resizable,
       setByUser: true,
     });
+    element.updateTheme(this.currentTheme);
     return this;
   }
 
@@ -151,6 +155,7 @@ export abstract class DirectionalLayout extends Layout {
       resizable,
       setByUser: true,
     });
+    element.updateTheme(this.currentTheme);
     return this;
   }
 
