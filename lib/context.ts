@@ -11,7 +11,7 @@ export class Context {
   private _justReleasedMouse: boolean = false;
   private _justPressedRightMouse: boolean = false;
   private _justDoubleClicked: boolean = false;
-  private _scrollDelta: number = 0;
+  private _scrollDelta: Vec2D = new Vec2D(0, 0);
   private _cursor: string = "default";
   private _heldKeys: string[] = [];
   private _justPressedKeys: string[] = [];
@@ -67,7 +67,8 @@ export class Context {
         if (event.ctrlKey) {
           event.preventDefault();
         }
-        this._scrollDelta += event.deltaY;
+        this._scrollDelta.x += event.deltaX;
+        this._scrollDelta.y += event.deltaY;
       },
       { passive: false },
     );
@@ -135,7 +136,7 @@ export class Context {
     this._justReleasedMouse = false;
     this._justPressedRightMouse = false;
     this._justDoubleClicked = false;
-    this._scrollDelta = 0;
+    this._scrollDelta = new Vec2D(0, 0);
     this._justPressedKeys = [];
     this._justReleasedKeys = [];
     this._droppedFiles = null;
@@ -219,7 +220,7 @@ export class Context {
     return this._justDoubleClicked;
   }
 
-  get scrollDelta(): number {
+  get scrollDelta(): Vec2D {
     return this._scrollDelta;
   }
 

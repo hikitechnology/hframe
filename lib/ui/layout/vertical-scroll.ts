@@ -28,9 +28,9 @@ export class VerticalScroll extends DirectionalLayout {
       !context.heldKeys.some((key) => this.dontScrollWhenHeld.includes(key))
     ) {
       if (this.startFromBottom) {
-        this.scrollOffset -= context.scrollDelta;
+        this.scrollOffset -= context.scrollDelta.y;
       } else {
-        this.scrollOffset += context.scrollDelta;
+        this.scrollOffset += context.scrollDelta.y;
       }
     }
     if (actions) {
