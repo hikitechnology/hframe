@@ -48,14 +48,27 @@ export class Rect {
   /**
    * Grows a Rect from its center by the given distance on each side, and returns itself
    * Shrinks the Rect if the value is negative
-   * @param shrinkBy - How much to shrink each side by
+   * @param growBy - How much to shrink each side by
    */
-  grow(shrinkBy: number): Rect {
-    this.x -= shrinkBy;
-    this.y -= shrinkBy;
-    this.width += shrinkBy * 2;
-    this.height += shrinkBy * 2;
+  grow(growBy: number): Rect {
+    this.x -= growBy;
+    this.y -= growBy;
+    this.width += growBy * 2;
+    this.height += growBy * 2;
     return this;
+  }
+
+  /**
+   * Check if a Rect intersects with another Rect
+   * @param other: Other Rect
+   */
+  intersects(other: Rect): boolean {
+    return (
+      this.x <= other.x + other.width &&
+      other.x <= this.x + this.width &&
+      this.y <= other.y + other.height &&
+      other.y <= this.y + this.height
+    );
   }
 
   /**

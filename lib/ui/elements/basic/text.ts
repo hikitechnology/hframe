@@ -8,6 +8,7 @@ export class Text extends Element {
   private cachedPainter: Painter | null = null;
   private lines: string[] = [];
   private height: number = 0;
+  private lastWidth: number = -1;
 
   constructor(
     public text: string = "",
@@ -20,7 +21,7 @@ export class Text extends Element {
   }
 
   protected update(rect: Rect, _context: Context, actions?: Actions): void {
-    if (this.cachedPainter) {
+    if (this.cachedPainter && this.lastWidth !== rect.width) {
       const words = this.text.split(/\s+/);
       this.lines = [];
 
@@ -44,9 +45,11 @@ export class Text extends Element {
 
       this.height =
         this.style.fontSize * this.style.lineSpacing * this.lines.length;
-      if (actions) {
-        actions.requestHeight(this.height);
-      }
+      this.lastWidth = rect.width;
+    }
+
+    if (actions) {
+      actions.requestHeight(this.height);
     }
   }
 

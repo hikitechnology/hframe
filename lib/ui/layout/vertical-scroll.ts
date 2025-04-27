@@ -42,7 +42,15 @@ export class VerticalScroll extends DirectionalLayout {
   }
 
   protected render(rect: Rect, painter: Painter): void {
-    super.render(this.getContentRect(rect), painter);
+    const contentRect = this.getContentRect(rect);
+    painter.clip(contentRect);
+    for (const element of this.elements) {
+      const elementRect = this.getAllocRect(contentRect, element);
+      if (elementRect.intersects(contentRect)) {
+        element.renderElement(elementRect, painter);
+      }
+    }
+    painter.unclip();
     this.renderScrollbar(rect, painter);
   }
 

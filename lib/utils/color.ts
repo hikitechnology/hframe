@@ -122,6 +122,18 @@ export class Color {
     return new Color(this.r, this.g, this.b, this.a);
   }
 
+  /**
+   * Check if two colors are the same
+   */
+  equals(other: Color): boolean {
+    return (
+      this.r === other.r &&
+      this.g === other.g &&
+      this.b === other.b &&
+      this.a === other.a
+    );
+  }
+
   // ----- color constants -----
 
   static get RED() {

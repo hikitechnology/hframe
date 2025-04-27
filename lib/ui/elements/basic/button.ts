@@ -9,14 +9,28 @@ import { Element } from "../../abstract/element";
 export class Button extends Element {
   private hovered: boolean = false;
   private cachedPainter: Painter | null = null;
+  private _text: string;
   private _minHeight: number = 0;
   private _minWidth: number = 0;
+  private needsRecalc: boolean = true;
 
   constructor(
-    public text: string,
+    text: string,
     public onClick: () => void = () => {},
   ) {
     super();
+    this._text = text;
+  }
+
+  set text(newText: string) {
+    if (newText !== this._text) {
+      this._text = newText;
+      this.needsRecalc = true;
+    }
+  }
+
+  get text(): string {
+    return this._text;
   }
 
   protected update(rect: Rect, context: Context, actions?: Actions): void {
@@ -30,13 +44,17 @@ export class Button extends Element {
       this.hovered = false;
     }
 
-    if (this.cachedPainter && actions) {
+    if (this.cachedPainter && this.needsRecalc) {
       const textWidth = this.cachedPainter.measureText(
-        this.text,
+        this._text,
         this.style.fontSize,
       );
       this._minWidth = textWidth + 2 * this.style.padding;
       this._minHeight = this.style.fontSize + 2 * this.style.padding;
+      this.needsRecalc = false;
+    }
+
+    if (actions) {
       actions.requestWidth(this._minWidth);
       actions.requestHeight(this._minHeight);
     }
