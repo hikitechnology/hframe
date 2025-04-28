@@ -13,7 +13,7 @@ export abstract class Theme {
     return theme.defaultStyle;
   }
 
-  getStyleFor(element: Element | typeof Element): Style {
+  getStyleFor(element: Element | Function): Style {
     // recursive lookup for most specific styling
     let currentConstructor =
       element instanceof Element ? element.constructor : element;
