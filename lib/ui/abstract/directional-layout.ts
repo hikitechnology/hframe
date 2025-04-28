@@ -209,34 +209,36 @@ export abstract class DirectionalLayout extends Layout {
     const afterPadding = rect.clone().grow(-this.style.padding);
     for (const element of this.elements) {
       const elementRect = this.getAllocRect(afterPadding, element);
-      const actions: Actions = {
-        requestWidth: (width) => {
-          const allocation = this.getAllocation(element);
-          if (!this.isVertical && !allocation.setByUser) {
-            allocation.type = "pixel";
-            allocation.size = width;
-          }
-        },
-        requestHeight: (height) => {
-          const allocation = this.getAllocation(element);
-          if (this.isVertical && !allocation.setByUser) {
-            allocation.type = "pixel";
-            allocation.size = height;
-          }
-        },
-      };
-      element.updateElement(elementRect, context, actions);
+      if (elementRect.intersects(rect)) {
+        const actions: Actions = {
+          requestWidth: (width) => {
+            const allocation = this.getAllocation(element);
+            if (!this.isVertical && !allocation.setByUser) {
+              allocation.type = "pixel";
+              allocation.size = width;
+            }
+          },
+          requestHeight: (height) => {
+            const allocation = this.getAllocation(element);
+            if (this.isVertical && !allocation.setByUser) {
+              allocation.type = "pixel";
+              allocation.size = height;
+            }
+          },
+        };
+        element.updateElement(elementRect, context, actions);
+      }
     }
   }
 
   protected render(rect: Rect, painter: Painter): void {
-    painter.clip(rect);
     const afterPadding = rect.clone().grow(-this.style.padding);
     for (const element of this.elements) {
       const elementRect = this.getAllocRect(afterPadding, element);
-      element.renderElement(elementRect, painter);
+      if (elementRect.intersects(rect)) {
+        element.renderElement(elementRect, painter);
+      }
     }
-    painter.unclip();
   }
 
   protected updateMinSizes() {

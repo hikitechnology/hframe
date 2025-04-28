@@ -76,6 +76,7 @@ export class Button extends Element {
     painter.setColor(this.style.outline);
     painter.outlineRect(rect, this.style.rounding);
     painter.setColor(this.style.textColor);
+    painter.clip(rect);
     painter.text(
       this.text,
       this.style.textCenteredH
@@ -88,6 +89,7 @@ export class Button extends Element {
       this.style.textCenteredV,
       this.style.fontSize,
     );
+    painter.unclip();
   }
 
   get minHeight() {
