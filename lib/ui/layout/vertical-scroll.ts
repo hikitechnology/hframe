@@ -16,6 +16,7 @@ export class VerticalScroll extends DirectionalLayout {
   protected draggingScrollbar: boolean = false;
 
   constructor(
+    protected shiftContentForScrollbar: boolean = true,
     protected startFromBottom: boolean = false,
     protected dontScrollWhenHeld: string[] = [],
   ) {
@@ -151,7 +152,10 @@ export class VerticalScroll extends DirectionalLayout {
   }
 
   protected getContentRect(baseRect: Rect) {
-    if (baseRect.height < this.contentHeight - 1) {
+    if (
+      this.shiftContentForScrollbar &&
+      baseRect.height < this.contentHeight - 1
+    ) {
       const newRect = baseRect.clone();
       newRect.width -= SCROLLBAR_WIDTH;
       return newRect;
