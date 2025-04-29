@@ -7,6 +7,7 @@ import { Painter } from "./painter";
 export class Canvas2DPainter implements Painter {
   private ctx: CanvasRenderingContext2D;
   private clipRect: Rect | null = null;
+  private color: Color = Color.BLACK;
 
   /**
    * @param canvas - HTML canvas to draw on
@@ -32,31 +33,40 @@ export class Canvas2DPainter implements Painter {
   }
 
   drawLine(segment: LineSegment, width: number = 1): void {
-    this.ctx.beginPath();
-    this.ctx.moveTo(segment.p1.x, segment.p1.y);
-    this.ctx.lineTo(segment.p2.x, segment.p2.y);
+    if (!this.color.equals(Color.TRANSPARENT)) {
+      this.ctx.beginPath();
+      this.ctx.moveTo(segment.p1.x, segment.p1.y);
+      this.ctx.lineTo(segment.p2.x, segment.p2.y);
 
-    const prevWidth = this.ctx.lineWidth;
-    this.ctx.lineWidth = width;
-    this.ctx.stroke();
-    this.ctx.lineWidth = prevWidth;
+      const prevWidth = this.ctx.lineWidth;
+      this.ctx.lineWidth = width;
+      this.ctx.stroke();
+      this.ctx.lineWidth = prevWidth;
+    }
   }
 
   setColor(color: Color): void {
-    this.ctx.fillStyle = color.toString();
-    this.ctx.strokeStyle = color.toString();
+    this.color = color;
+    if (!color.equals(Color.TRANSPARENT)) {
+      this.ctx.fillStyle = color.toString();
+      this.ctx.strokeStyle = color.toString();
+    }
   }
 
   fillRect(rect: Rect, rounding: number = 0): void {
-    this.ctx.beginPath();
-    this.ctx.roundRect(rect.x, rect.y, rect.width, rect.height, rounding);
-    this.ctx.fill();
+    if (!this.color.equals(Color.TRANSPARENT)) {
+      this.ctx.beginPath();
+      this.ctx.roundRect(rect.x, rect.y, rect.width, rect.height, rounding);
+      this.ctx.fill();
+    }
   }
 
   outlineRect(rect: Rect, rounding?: number): void {
-    this.ctx.beginPath();
-    this.ctx.roundRect(rect.x, rect.y, rect.width, rect.height, rounding);
-    this.ctx.stroke();
+    if (!this.color.equals(Color.TRANSPARENT)) {
+      this.ctx.beginPath();
+      this.ctx.roundRect(rect.x, rect.y, rect.width, rect.height, rounding);
+      this.ctx.stroke();
+    }
   }
 
   clip(rect: Rect | null): void {
