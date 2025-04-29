@@ -13,6 +13,7 @@ export * from "./style/theme-builder";
 export * from "./style/theme";
 export * from "./style/themes";
 export * from "./ui/abstract/actions";
+export * from "./ui/abstract/compound-element";
 export * from "./ui/abstract/directional-layout";
 export * from "./ui/abstract/element";
 export * from "./ui/abstract/keyboard-input";
