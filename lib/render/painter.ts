@@ -1,3 +1,4 @@
+import { Pos2D } from "../main";
 import { Color } from "../utils/color";
 import { ImageSource } from "../utils/image/image-source";
 import { LineSegment } from "../utils/shapes/line-segment";
@@ -37,6 +38,18 @@ export interface Painter {
    * @param rounding - Corner radius (optional)
    */
   outlineRect(rect: Rect, rounding?: number): void;
+
+  /**
+   * Fills a polygon
+   * @param ...points - Points of the polygon
+   */
+  fillPoly(...points: Pos2D[]): void;
+
+  /**
+   * Outlines a polygon
+   * @param ...points - Points of the polygon
+   */
+  outlinePoly(...points: Pos2D[]): void;
 
   /**
    * Prevents the painter from drawing outside a boundary

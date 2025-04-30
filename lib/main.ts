@@ -20,6 +20,7 @@ export * from "./ui/abstract/keyboard-input";
 export * from "./ui/abstract/layout";
 export * from "./ui/abstract/resize-layout";
 export * from "./ui/elements/basic/button";
+export * from "./ui/elements/basic/divider";
 export * from "./ui/elements/basic/gap";
 export * from "./ui/elements/basic/image";
 export * from "./ui/elements/basic/number-input";

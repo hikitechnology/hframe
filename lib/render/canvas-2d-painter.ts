@@ -1,3 +1,4 @@
+import { Pos2D } from "../main";
 import { Color } from "../utils/color";
 import { ImageSource } from "../utils/image/image-source";
 import { LineSegment } from "../utils/shapes/line-segment";
@@ -67,6 +68,24 @@ export class Canvas2DPainter implements Painter {
       this.ctx.roundRect(rect.x, rect.y, rect.width, rect.height, rounding);
       this.ctx.stroke();
     }
+  }
+
+  fillPoly(...points: Pos2D[]): void {
+    this.ctx.beginPath();
+    this.ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) {
+      this.ctx.lineTo(points[i].x, points[i].y);
+    }
+    this.ctx.fill();
+  }
+
+  outlinePoly(...points: Pos2D[]): void {
+    this.ctx.beginPath();
+    this.ctx.moveTo(points[0].x, points[0].y);
+    for (let i = 1; i < points.length; i++) {
+      this.ctx.lineTo(points[i].x, points[i].y);
+    }
+    this.ctx.stroke();
   }
 
   clip(rect: Rect | null): void {
