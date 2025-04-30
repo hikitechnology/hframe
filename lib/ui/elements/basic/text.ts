@@ -43,7 +43,7 @@ export class Text extends Element {
               this.style.fontSize,
               this.style.font,
             )
-          : 0;
+          : -1;
         if (width < rect.width) {
           currentLine += " " + word;
         } else {

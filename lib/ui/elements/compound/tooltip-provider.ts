@@ -78,8 +78,8 @@ export class TooltipProvider extends Element {
     this.tooltipLayer.set(this.textElement, {
       xOffset: position.x + TOOLTIP_CURSOR_OFFSET_X,
       yOffset: position.y + TOOLTIP_CURSOR_OFFSET_Y,
-      width: this.textElement.minWidth,
-      height: this.textElement.minHeight,
+      width: null,
+      height: null,
     });
   }
 
