@@ -3,6 +3,7 @@ import { KeyboardInput } from "../ui/abstract/keyboard-input";
 import { Button } from "../ui/elements/basic/button";
 import { Divider } from "../ui/elements/basic/divider";
 import { Text } from "../ui/elements/basic/text";
+import { TooltipProvider } from "../ui/elements/compound/tooltip-provider";
 import { Menu } from "../ui/elements/compound/menu";
 import { Color } from "../utils/color";
 import { ThemeBuilder } from "./theme-builder";
@@ -54,6 +55,11 @@ export const Themes = {
       outline: Color.gray(144),
       padding: 1,
     })
+    .setStyleFor(TooltipProvider, {
+      fill: Color.gray(234),
+      outline: Color.gray(144),
+      padding: 2,
+    })
     .lock(),
   dark: ThemeBuilder.setIsDark(true)
     .setDefault({
@@ -101,6 +107,11 @@ export const Themes = {
     .setStyleFor(Divider, {
       outline: Color.gray(80),
       padding: 1,
+    })
+    .setStyleFor(TooltipProvider, {
+      outline: Color.gray(80),
+      fill: Color.gray(45),
+      padding: 2,
     })
     .lock(),
 };

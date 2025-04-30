@@ -18,3 +18,6 @@ export const TEXT_HIGHLIGHT = Color.rgb(0, 150, 237);
 export const TEXTINPUT_CARET_COLOR = Color.rgb(66, 117, 245);
 export const DRAGINPUT_SCALING = 0.5;
 export const MENU_MIN_WIDTH = 100;
+export const TOOLTIP_HOVER_TIME = 500; // ms
+export const TOOLTIP_CURSOR_OFFSET_X = 0;
+export const TOOLTIP_CURSOR_OFFSET_Y = 22;

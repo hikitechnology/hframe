@@ -28,6 +28,7 @@ export * from "./ui/elements/basic/slider";
 export * from "./ui/elements/basic/text-input";
 export * from "./ui/elements/basic/text";
 export * from "./ui/elements/compound/menu";
+export * from "./ui/elements/compound/tooltip-provider";
 export * from "./ui/layout/freeform";
 export * from "./ui/layout/horizontal";
 export * from "./ui/layout/vertical-scroll";
