@@ -28,4 +28,12 @@ export abstract class CompoundElement extends Element {
     super.updateTheme(theme);
     this.innerLayout.updateTheme(theme);
   }
+
+  get minWidth(): number {
+    return this.innerLayout.minWidth;
+  }
+
+  get minHeight(): number {
+    return this.innerLayout.minHeight;
+  }
 }
