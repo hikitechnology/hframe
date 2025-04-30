@@ -24,6 +24,7 @@ export const Themes = {
     scrollbarOutline: Color.gray(144),
     sliderBackground: Color.gray(144),
     sliderDotFill: Color.gray(60),
+    font: "Arial",
   })
     .setStyleFor(DirectionalLayout, {
       fill: Color.gray(234),
@@ -71,6 +72,7 @@ export const Themes = {
       scrollbarOutline: Color.gray(80),
       sliderBackground: Color.gray(144),
       sliderDotFill: Color.gray(60),
+      font: "Arial",
     })
     .setStyleFor(DirectionalLayout, {
       fill: Color.gray(30),

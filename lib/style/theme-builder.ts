@@ -19,6 +19,7 @@ export class ThemeBuilder extends Theme {
     scrollbarOutline: Color.BLACK,
     sliderBackground: Color.WHITE,
     sliderDotFill: Color.BLACK,
+    font: "Arial",
   };
   protected _isDark: boolean = false;
 

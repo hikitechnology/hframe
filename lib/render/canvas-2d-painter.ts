@@ -117,16 +117,17 @@ export class Canvas2DPainter implements Painter {
     fromCenterH: boolean = false,
     fromCenterV: boolean = false,
     fontSize: number = 12,
+    font: string = "Arial",
   ) {
     this.ctx.textAlign = fromCenterH ? "center" : "start";
     this.ctx.textBaseline = fromCenterV ? "middle" : "top";
 
-    this.ctx.font = `${fontSize}px Arial`;
+    this.ctx.font = `${fontSize}px ${font}`;
     this.ctx.fillText(text, x, y);
   }
 
-  measureText(text: string, fontSize: number): number {
-    this.ctx.font = `${fontSize}px Arial`;
+  measureText(text: string, fontSize: number, font: string = "Arial"): number {
+    this.ctx.font = `${fontSize}px ${font}`;
     const metrics = this.ctx.measureText(text);
     return metrics.width;
   }

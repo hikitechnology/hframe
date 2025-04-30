@@ -55,6 +55,7 @@ export class NumberInput extends KeyboardInput {
       false,
       false,
       this.style.fontSize,
+      this.style.font,
     );
     painter.unclip();
   }

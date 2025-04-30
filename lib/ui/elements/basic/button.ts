@@ -48,6 +48,7 @@ export class Button extends Element {
       const textWidth = this.cachedPainter.measureText(
         this._text,
         this.style.fontSize,
+        this.style.font,
       );
       this._minWidth = textWidth + 2 * this.style.padding;
       this._minHeight = this.style.fontSize + 2 * this.style.padding;
@@ -88,6 +89,7 @@ export class Button extends Element {
       this.style.textCenteredH,
       this.style.textCenteredV,
       this.style.fontSize,
+      this.style.font,
     );
     painter.unclip();
   }

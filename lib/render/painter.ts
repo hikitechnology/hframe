@@ -82,12 +82,13 @@ export interface Painter {
     fromCenterV: boolean,
     fromCenterH: boolean,
     fontSize?: number,
+    font?: string,
   ): void;
 
   /**
    * Returns the width of a string in pixels when painted with the given font size
    */
-  measureText(text: string, fontSize: number): number;
+  measureText(text: string, fontSize: number, font?: string): number;
 
   /**
    * Draws an image to the canvas

@@ -32,6 +32,7 @@ export class Text extends Element {
           ? this.cachedPainter.measureText(
               currentLine + " " + word,
               this.style.fontSize,
+              this.style.font,
             )
           : 0;
         if (width < rect.width) {
@@ -74,6 +75,7 @@ export class Text extends Element {
         this.style.textCenteredH,
         this.style.textCenteredV,
         this.style.fontSize,
+        this.style.font,
       );
     }
     painter.unclip();

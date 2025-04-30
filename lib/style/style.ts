@@ -16,4 +16,5 @@ export interface Style {
   scrollbarOutline: Color;
   sliderBackground: Color;
   sliderDotFill: Color;
+  font: string;
 }

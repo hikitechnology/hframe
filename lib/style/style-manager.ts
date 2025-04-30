@@ -20,6 +20,7 @@ export class StyleManager implements Style {
   declare scrollbarOutline: Color;
   declare sliderBackground: Color;
   declare sliderDotFill: Color;
+  declare font: string;
 
   constructor(private style: Style) {
     const defineProperty = <K extends keyof Style>(key: K) => {
