@@ -47,11 +47,11 @@ export class Canvas2DPainter implements Painter {
   }
 
   setColor(color: Color): void {
-    this.color = color;
-    if (!color.equals(Color.TRANSPARENT)) {
+    if (!color.equals(Color.TRANSPARENT) && !color.equals(this.color)) {
       this.ctx.fillStyle = color.toString();
       this.ctx.strokeStyle = color.toString();
     }
+    this.color = color;
   }
 
   fillRect(rect: Rect, rounding: number = 0): void {
