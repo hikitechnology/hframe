@@ -19,6 +19,10 @@ export class Vec2D {
     return new Vec2D(this.x, this.y);
   }
 
+  equals(other: Vec2D): boolean {
+    return this.x === other.x && this.y === other.y;
+  }
+
   /**
    * Returns the length of a vector
    */

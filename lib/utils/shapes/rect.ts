@@ -27,6 +27,10 @@ export class Rect {
     return new Rect(new Pos2D(x, y), new Vec2D(width, height));
   }
 
+  equals(other: Rect) {
+    return this.position.equals(other.position) && this.size.equals(other.size);
+  }
+
   /**
    * Check if the Rect contains a Pos2D point, with optional leeway
    * @param position - Pos2D point
