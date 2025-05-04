@@ -1,9 +1,9 @@
 import { FALLBACK_THEME } from "./constants";
 import { Context } from "./context";
+import { Element } from "./main";
 import { Canvas2DPainter } from "./render/canvas-2d-painter";
 import { Painter } from "./render/painter";
 import { Theme } from "./style/theme";
-import { Layout } from "./ui/abstract/layout";
 import { Rect } from "./utils/shapes/rect";
 
 /**
@@ -12,7 +12,7 @@ import { Rect } from "./utils/shapes/rect";
 export class HFrame {
   private theme: Theme = FALLBACK_THEME;
   private painter: Painter;
-  private layers: Layout[] = [];
+  private layers: Element[] = [];
   private context: Context;
 
   constructor(private canvas: HTMLCanvasElement) {
@@ -50,12 +50,12 @@ export class HFrame {
     return this.theme;
   }
 
-  addLayer(layout: Layout) {
-    this.layers.push(layout);
+  addLayer(layer: Element) {
+    this.layers.push(layer);
   }
 
-  removeLayer(layout: Layout) {
-    this.layers.splice(this.layers.indexOf(layout), 1);
+  removeLayer(layer: Element) {
+    this.layers.splice(this.layers.indexOf(layer), 1);
   }
 
   getLayer(index: number) {
