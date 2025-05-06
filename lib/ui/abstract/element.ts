@@ -12,6 +12,7 @@ export abstract class Element {
     FALLBACK_THEME.getStyleFor(this),
   );
   protected currentTheme: Theme = FALLBACK_THEME;
+  protected lastRect: Rect | null = null;
   allowPassthrough: boolean = false;
 
   updateTheme(theme: Theme) {
@@ -20,6 +21,8 @@ export abstract class Element {
   }
 
   updateElement(rect: Rect, context: Context, actions?: Actions): void {
+    this.lastRect = rect;
+
     const mouseInBounds = rect.contains(context.mousePos);
     if (!mouseInBounds) {
       context.pauseInteraction();
