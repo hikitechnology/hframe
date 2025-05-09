@@ -5,33 +5,36 @@ import { Actions } from "../../abstract/actions";
 import { Element } from "../../abstract/element";
 
 export class Text extends Element {
+  private _text: string;
   private cachedPainter: Painter | null = null;
   private lines: string[] = [];
   private height: number = 0;
   private lastWidth: number = -1;
   private widthNoWrap: number = 0;
+  private textChanged: boolean = false;
 
-  constructor(
-    public text: string = "",
-    fontSize?: number,
-  ) {
+  constructor(text: string = "", fontSize?: number) {
     super();
+    this._text = text;
     if (fontSize) {
       this.style.fontSize = fontSize;
     }
   }
 
   protected update(rect: Rect, _context: Context, actions?: Actions): void {
-    if (this.cachedPainter && this.lastWidth !== rect.width) {
+    if (
+      this.cachedPainter &&
+      (this.lastWidth !== rect.width || this.textChanged)
+    ) {
       if (!this.style.textWrap) {
         this.widthNoWrap = this.cachedPainter.measureText(
-          this.text,
+          this._text,
           this.style.fontSize,
           this.style.font,
         );
       }
 
-      const words = this.text.split(/\s+/);
+      const words = this._text.split(/\s+/);
       this.lines = [];
 
       let currentLine = words[0];
@@ -61,6 +64,8 @@ export class Text extends Element {
     if (actions) {
       actions.requestHeight(this.height);
     }
+
+    this.textChanged = false;
   }
 
   protected render(rect: Rect, painter: Painter): void {
@@ -104,5 +109,16 @@ export class Text extends Element {
       );
     }
     return 0;
+  }
+
+  get text(): string {
+    return this._text;
+  }
+
+  set text(text: string) {
+    if (text !== this._text) {
+      this.textChanged = true;
+    }
+    this._text = text;
   }
 }
