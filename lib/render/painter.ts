@@ -96,4 +96,11 @@ export interface Painter {
    * @param rect - Rect to fill with the image
    */
   drawImage(image: ImageSource, rect: Rect): void;
+
+  /**
+   * Draws a VideoFrame to the canvas
+   * @param frame - VideoFrame to draw
+   * @param rect - Rect to fill with the image
+   */
+  drawVideoFrame(frame: VideoFrame, rect: Rect): void;
 }

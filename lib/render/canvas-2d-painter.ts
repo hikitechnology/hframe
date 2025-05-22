@@ -141,4 +141,8 @@ export class Canvas2DPainter implements Painter {
       rect.height,
     );
   }
+
+  drawVideoFrame(frame: VideoFrame, rect: Rect): void {
+    this.ctx.drawImage(frame, rect.x, rect.y, rect.width, rect.height);
+  }
 }
