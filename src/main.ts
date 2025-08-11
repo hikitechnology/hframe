@@ -1,114 +1,64 @@
-import { HFrame } from "../lib/hframe";
-import { Themes } from "../lib/style/themes";
-import { Button } from "../lib/ui/elements/basic/button";
-import { Text } from "../lib/ui/elements/basic/text";
-import { Menu } from "../lib/ui/elements/compound/menu";
-import { Freeform } from "../lib/ui/layout/freeform";
-import { Horizontal } from "../lib/ui/layout/horizontal";
-import { Vertical } from "../lib/ui/layout/vertical";
-import { VerticalScroll } from "../lib/ui/layout/vertical-scroll";
-import { Color } from "../lib/utils/color";
+import { Button, Color, HFrame, Horizontal, Text, Vertical } from "@/lib/main";
+import { App } from "./video-editor-demo/app";
 
 const canvas = document.getElementById("app") as HTMLCanvasElement;
+
 const hframe = new HFrame(canvas);
+new App(hframe);
 
-const app = new Vertical();
-hframe.addLayer(app);
+const overlay = new Vertical();
+overlay.style.fill = new Color(0, 0, 0, 0.2);
+overlay.style.outline = Color.TRANSPARENT;
 
-const menuBar = new Horizontal();
-const popoutContainer = new Horizontal();
-const main = new Vertical();
-const topHalf = new Horizontal();
-const bottomHalf = new Horizontal();
+const overlayInner = new Horizontal();
+overlayInner.style.fill = Color.TRANSPARENT;
+overlayInner.style.outline = Color.TRANSPARENT;
+overlay.gap().addSized(overlayInner, 330).gap();
+const textPopup = new Vertical();
+textPopup.style.rounding = 10;
+textPopup.style.padding = 10;
+overlayInner.gap().addSized(textPopup, 300).gap();
 
-app.addSized(menuBar, 20).add(popoutContainer);
-popoutContainer.add(main);
-main.addRelative(topHalf, 1, true).addRelative(bottomHalf, 1, true);
+textPopup
+  .add(new Text("Welcome to the HFrame demo!", 24))
+  .gap(6)
+  .add(
+    new Text(
+      "HFrame is an experimental JS/TS framework that renders to a canvas instead of the DOM.",
+      13,
+    ),
+  )
+  .gap(6)
+  .add(
+    new Text(
+      "Interactive webapps are often limited by the browser's HTML tree parsing - for deeply nested structures, the browser may recalculate the size and position of hundreds of elements at a time. HFrame avoids intensive DOM manipulation by rendering to a canvas instead of HTML elements.",
+      13,
+    ),
+  )
+  .gap(6)
+  .add(
+    new Text(
+      "As an example of what's possible in HFrame, check out this video editor interface. Remember, everything you see is rendered without the DOM, in a single canavs element!",
+      13,
+    ),
+  );
 
-// MENU BAR
-const freeform = new Freeform();
-freeform.allowPassthrough = true;
-hframe.addLayer(freeform);
-const menu = new Menu(freeform);
+const bottomButtons = new Horizontal(false);
+bottomButtons
+  .addRelative(
+    new Button("View on GitHub", () => {
+      window.open("https://google.com", "_blank")?.focus();
+    }),
+    1,
+  )
+  .gap(6)
+  .addRelative(
+    new Button("Close overlay", () => {
+      hframe.removeLayer(overlay);
+    }),
+    1,
+  );
 
-const fileButtons = [
-  new Button("Open"),
-  new Button("Settings"),
-  new Button("Quit"),
-];
+textPopup.gap().addSized(bottomButtons, 30);
 
-const editButtons = [
-  new Button("Undo"),
-  new Button("Redo"),
-  new Button("Copy"),
-  new Button("Paste"),
-];
-
-const viewButtons = [
-  new Button("Toggle theme", () => {
-    if (hframe.getCurrentTheme().isDark) {
-      hframe.setTheme(Themes.light);
-    } else {
-      hframe.setTheme(Themes.dark);
-    }
-    menu.close();
-  }),
-];
-
-const fileButton = new Button("File", () => {
-  menu.setContents(fileButtons);
-  menu.openAt(menuBar.getRect(fileButton).bottomLeft);
-});
-const editButton = new Button("Edit", () => {
-  menu.setContents(editButtons);
-  menu.openAt(menuBar.getRect(editButton).bottomLeft);
-});
-const viewButton = new Button("View", () => {
-  menu.setContents(viewButtons);
-  menu.openAt(menuBar.getRect(viewButton).bottomLeft);
-});
-menuBar.add(fileButton, editButton, viewButton);
-menuBar.styleChildren({
-  outline: Color.TRANSPARENT,
-  fill: Color.TRANSPARENT,
-});
-
-// TOP HALF
-const leftSidebar = new Vertical();
-const topCenter = new Vertical();
-const topRight = new Vertical();
-
-topHalf
-  .addSized(leftSidebar, 250, true, 100)
-  .add(topCenter)
-  .addSized(topRight, 250, true, 100);
-
-// TOP LEFT
-const topLeftHeader = new Horizontal();
-const topLeftBody = new VerticalScroll();
-leftSidebar.addSized(topLeftHeader, 30).add(topLeftBody);
-
-// TOP LEFT HEADER
-const layoutButton = new Button("➡️");
-layoutButton.style.fontSize = 20;
-layoutButton.onClick = () => {
-  layoutButton.text = layoutButton.text === "⬇️" ? "➡️" : "⬇️";
-  if (topHalf.includes(leftSidebar)) {
-    const size = topHalf.getRect(leftSidebar).width;
-    topHalf.remove(leftSidebar);
-    popoutContainer.insertSized(0, leftSidebar, size, true, 100);
-  } else {
-    const size = popoutContainer.getRect(leftSidebar).width;
-    popoutContainer.remove(leftSidebar);
-    topHalf.insertSized(0, leftSidebar, size, true, 100);
-  }
-};
-
-const panelLabel = new Text("Sidebar");
-panelLabel.style = {
-  textCenteredV: true,
-  fontSize: 16,
-  textWrap: false,
-};
-
-topLeftHeader.addSized(layoutButton, 30).gap(6).add(panelLabel);
+hframe.addLayer(overlay);

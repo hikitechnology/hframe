@@ -1,4 +1,4 @@
-import { dirname, resolve } from "node:path";
+import path, { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
@@ -11,6 +11,11 @@ export default defineConfig({
       entry: resolve(__dirname, "lib/main.ts"),
       name: "hframe",
       fileName: "hframe",
+    },
+  },
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./"),
     },
   },
   plugins: [dts({ include: ["lib"] })],

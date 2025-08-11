@@ -52,6 +52,7 @@ export class HFrame {
 
   addLayer(layer: Element) {
     this.layers.push(layer);
+    layer.updateTheme(this.theme);
   }
 
   removeLayer(layer: Element) {

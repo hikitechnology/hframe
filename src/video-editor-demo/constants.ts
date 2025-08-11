@@ -1,0 +1,43 @@
+import { URIImageSource } from "@/lib/main";
+
+export const MENU_BAR_HEIGHT = 20;
+export const ICON_FONT = "Material Icons";
+export const MIN_SIDEBAR_WIDTH = 150;
+export const DEFAULT_SIDEBAR_WIDTH = 350;
+export const SIDEBAR_HEADER_FONT_SIZE = 16;
+export const SIDEBAR_HEADER_PADDING = 4;
+export const SIDEBAR_HEADER_HEIGHT = 30;
+export const PLAYER_CONTROLS_PADDING = 4;
+export const PLAYER_CONTROLS_HEIGHT = 30;
+export const TIMELINE_CONTROLS_HEIGHT = 30;
+export const TIMELINE_CONTROLS_PADDING = 4;
+export const ZOOM_SLIDER_WIDTH = 120;
+export const TRACK_HEADER_WIDTH = 80;
+export const ADD_TRACK_BUTTON_HEIGHT = 26;
+export const ADD_TRACK_PADDING = 4;
+export const TRACK_HEADER_PADDING = 4;
+export const HIDE_TRACK_BUTTONS_AT = 50;
+export const BASE_TRACK_ZOOM = 70;
+export const TRACK_BUTTON_SIZE = 30;
+export const TRACK_DIVIDER_THICKNESS = 2;
+export const CONTAINER_ZOOM_MULT = 0.1;
+export const MIN_TRACK_HEIGHT = 30;
+export const MAX_TRACK_HEIGHT = 140;
+export const TIMELINE_SCROLLBAR_HEIGHT = 5;
+export const TIMELINE_PLAYHEAD_HEIGHT = 30;
+export const PLAYHEAD_TRIANGLE_WIDTH = 8;
+export const PLAYHEAD_TRIANGLE_HEIGHT = 11;
+export const PLAYHEAD_TICK_DENSITY = 10;
+export const PLAYHEAD_TIMESTAMP_DENSITY = 100;
+export const PLAYHEAD_TICK_HEIGHT = 9;
+export const PLAYHEAD_BIG_TICK_HEIGHT = 12;
+export const PLAYHEAD_TIMESTAMP_FONT_SIZE = 12;
+export const PLAYHEAD_TIMESTAMP_PADDING = 5;
+export const DEFAULT_FILE_ICON = new URIImageSource(
+  "https://img.icons8.com/color/512/file.png",
+);
+export const MEDIA_POOL_FILE_WIDTH = 100;
+export const MEDIA_POOL_FILE_HEIGHT = 120;
+export const CLIP_RESIZE_LEEWAY = 4;
+export const SNAP_DISTANCE = 4;
+export const PLAYHEAD_JUMP_DISTANCE = 10;
